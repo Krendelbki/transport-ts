@@ -3,12 +3,17 @@ import { Points } from "../controller/transport_manager";
 export class GameMap {
     #map: number[][] = [];
     #points: Points[] = [];
+    #ids: number[] = [];
 
     get size() { return this.#map.length }
 
     constructor(map: number[][], points: Points[]) {
         this.#map = map;
         this.#points = points;
+
+        this.#points.forEach(point => {
+            this.#ids.push(Number(String(point.id.at(0)) + String(point.id.at(2))));
+        });
     }
 
     get map() { return this.#map }
@@ -20,6 +25,26 @@ export class GameMap {
         this.#map.push(row);
 
         this.#points.push(point);
+    }
+
+    getPointByIndex(index: number): Points | undefined {
+        let count = 0;
+        this.#points.forEach(point => {
+            if (count === index) {
+                return point
+            }
+            count++;
+        });
+        return
+    }
+
+    getPointIndex(_point: Points): number | undefined {
+        let count: number = 0;
+        this.#points.forEach(point => {
+            if (point === _point) return count;
+            count++;
+        });
+        return
     }
 
     addRoute(from: number, to: number) {
