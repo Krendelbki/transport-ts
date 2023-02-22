@@ -1,4 +1,5 @@
 import { Points } from "../../controller/transport_manager";
+import { Navigator } from "../navigator";
 import { GasStation } from "../points/gas_station_point";
 import { PointType } from "../points/point";
 import { Warehouse } from "../points/warehouse_point";
@@ -46,9 +47,9 @@ export class Truck extends Vehicle {
     }
 
     constructor(number: string, speed: number, gasCapacity: number, gasLevel: number, gasConsumption: number,
-        route: Points[], point: Points, maxMassOfCargo: number, massOfCargo?: number, canMove?: boolean, path?: Points[]) {
+        route: Points[], point: Points, maxMassOfCargo: number, navigator: Navigator, massOfCargo?: number, canMove?: boolean, path?: Points[]) {
 
-        super(number, speed, gasCapacity, gasLevel, gasConsumption, route, point, canMove, path);
+        super(number, speed, gasCapacity, gasLevel, gasConsumption, route, point, navigator, canMove, path);
 
         this.#maxMassOfCargo = maxMassOfCargo;
         if (massOfCargo) this.#massOfCargo = massOfCargo;

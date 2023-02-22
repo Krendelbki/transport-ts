@@ -3,6 +3,7 @@ import { Navigator } from '../navigator';
 import { Points } from '../../controller/transport_manager';
 import { PointType } from '../points/point';
 import { GasStation } from '../points/gas_station_point';
+import { GameMap } from '../map';
 
 export enum VehicleType {
 	CAR,
@@ -12,6 +13,8 @@ export enum VehicleType {
 }
 
 export class Vehicle {
+	#navigator: Navigator
+
 	protected _x: number
 	protected _y: number
 	protected _rotation: number = 0
@@ -52,9 +55,9 @@ export class Vehicle {
 	protected updateGasLevel() { if (this._gasLevel > this.gasConsumption && this.nextPoint()) this._gasLevel -= this._gasConsumption }
 
 	#checkNextRoutePoint() {
-		if (!this._route.length || this._path.length) return
+		if (!this._route.length || this._path.length || !this._point) return
 
-		this._path = [...this._path, ...Navigator.findRoute(this._point, this._route[0])]
+		this._path = [...this._path, ...this.#navigator.findRoute(this._point, this._route[0])]
 		this._nextRoutePoint = this._route[0]
 		this._route.shift()
 
@@ -125,7 +128,10 @@ export class Vehicle {
 
 	constructor
 		(number: string, speed: number, gasCapacity: number, gasLevel: number, gasConsumption: number,
-			route: Points[], point: Points, canMove?: boolean, path?: Points[]) {
+			route: Points[], point: Points, navigator: Navigator, canMove?: boolean, path?: Points[]) {
+
+		this.#navigator = navigator
+
 		this._x = point.x
 		this._y = point.y
 

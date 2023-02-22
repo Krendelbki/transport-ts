@@ -27,26 +27,6 @@ export class GameMap {
         this.#points.push(point);
     }
 
-    getPointByIndex(index: number): Points | undefined {
-        let count = 0;
-        this.#points.forEach(point => {
-            if (count === index) {
-                return point
-            }
-            count++;
-        });
-        return
-    }
-
-    getPointIndex(_point: Points): number | undefined {
-        let count: number = 0;
-        this.#points.forEach(point => {
-            if (point === _point) return count;
-            count++;
-        });
-        return
-    }
-
     addRoute(from: number, to: number) {
         this.#map[from][to] = 1;
     }

@@ -1,3 +1,4 @@
+import { Navigator } from './../navigator';
 import { setInterval } from "timers/promises";
 import { Points, random } from "../../controller/transport_manager";
 import { BusStop } from "../points/bus_stop_point";
@@ -11,10 +12,10 @@ export class Bus extends Vehicle {
 
     constructor
         (number: string, speed: number, gasCapacity: number, gasLevel: number, gasConsumption: number,
-            route: Points[], point: Points, canMove?: boolean, path?: Points[],
+            route: Points[], point: Points, navigator: Navigator, canMove?: boolean, path?: Points[],
             maxNumberOfPassengers?: number, numberOfPassengers?: number) {
 
-        super(number, speed, gasCapacity, gasLevel, gasConsumption, route, point, canMove, path)
+        super(number, speed, gasCapacity, gasLevel, gasConsumption, route, point, navigator, canMove, path)
 
         if (maxNumberOfPassengers) this.#maxNumberOfPassengers = maxNumberOfPassengers;
         if (numberOfPassengers) this.#numberOfPassengers = numberOfPassengers;
