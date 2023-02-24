@@ -36,7 +36,7 @@ export default function Table() {
 
             {map.map.map((row, i) =>
                 row.map((col, j) => {
-                    if (col === 1) return <Road coords={{ x1: points[i].x, y1: points[i].y, x2: points[j].x, y2: points[j].y }} />
+                    if (col !== 0) return <Road coords={{ x1: points[i].x, y1: points[i].y, x2: points[j].x, y2: points[j].y }} />
                     else return <></>
                 })
             )}

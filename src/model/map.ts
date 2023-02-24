@@ -28,7 +28,14 @@ export class GameMap {
     }
 
     addRoute(from: number, to: number) {
-        this.#map[from][to] = 1;
+        const startPoin = this.#points[from]
+        const endPoint = this.#points[to]
+
+        const dx = endPoint.x - startPoin.x
+        const dy = endPoint.y - startPoin.y
+
+        const length = Math.floor(Math.sqrt(dx * dx + dy * dy) * 100) / 100
+        this.#map[to][from] = length;
     }
 
     get points() { return this.#points }
