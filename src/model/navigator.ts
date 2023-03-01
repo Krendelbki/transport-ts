@@ -29,9 +29,10 @@ export class Navigator {
         const start = Number(startPoint.id.at(0));
         const end = Number(endPoint.id.at(0));
 
+        debugger
+
         const len = this.#map.size; // number of nodes in the graph
         const graph = this.#map.map; // graph to work on
-        console.log(graph);
 
         const distances = new Array<number>(len).fill(Infinity); // initialize distances to infinity
         const visited = new Array<boolean>(len).fill(false); // initialize visited flags to false
@@ -72,7 +73,6 @@ export class Navigator {
             path.unshift(currentNode);
             currentNode = prevNodes[currentNode];
         }
-        console.log(path);
 
         // construct the points array from path
         const points: Points[] = [];

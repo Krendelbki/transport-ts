@@ -105,8 +105,9 @@ export class Mannager {
         this.#defaultMap(maxW, maxH)
 
         this.addVehicle(new Vehicle("123123", 60, 100, 100, 1, [
-            // this.points[4],
+            this.points[1],
             this.points[8],
+            this.points[4],
         ], this.points[0], this.#navigator))
 
         // this.addVehicle(new Vehicle("231", 60, 100, 100, 1, [

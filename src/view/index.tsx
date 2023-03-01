@@ -87,7 +87,9 @@ export function App() {
     // Keyboard controls
     useEffect(() => {
         const keyHandler = (e: KeyboardEvent) => {
+            console.log(e.key.toLowerCase())
             switch (e.key.toLowerCase()) {
+
                 case 'arrowup':
                     increaseTimeout()
                     break
@@ -100,7 +102,8 @@ export function App() {
                     setIsActive(prev => !prev)
                     break
 
-                case 'r' || 'к':
+                case 'r':
+                case 'к':
                     restart()
                     break
 

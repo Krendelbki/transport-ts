@@ -57,7 +57,7 @@ export class Vehicle {
 	#checkNextRoutePoint() {
 		if (!this._route.length || this._path.length || !this._point) return
 
-		this._path = [...this._path, ...this.#navigator.findRoute(this._point, this._route[0])]
+		this._path = [...this.#navigator.findRoute(this._point, this._route[0])]
 		this._nextRoutePoint = this._route[0]
 		this._route.shift()
 
