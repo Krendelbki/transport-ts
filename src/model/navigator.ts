@@ -1,7 +1,6 @@
 import { GameMap } from './map';
 import { Points } from "../controller/transport_manager";
 
-import { Stack } from './ds/stack';
 import { Queue } from './ds/queue';
 
 interface Edge {
@@ -26,59 +25,67 @@ export class Navigator {
         });
     }
 
-    // TODO: Implement Deikstra's algorithm
+    public findRoute(startPoint: Points, endPoint: Points): Points[] {
+        const start = Number(startPoint.id.at(0));
+        const end = Number(endPoint.id.at(0));
 
-    // // Not working with new map 
-    // public findRoute(startPoint: Points, endPoint: Points): Points[] {
-    //     let start = Number(startPoint.id[0]);
-    //     let end = Number(endPoint.id[0]);
+        const len = this.#map.size; // number of nodes in the graph
+        const graph = this.#map.map; // graph to work on
+        console.log(graph);
 
-    //     let queue = new Queue<number>();
-    //     let edges = new Stack<Edge>();
-    //     let route = new Array<number>();
-    //     let nodes = new Array(this.#map.size).fill(0);
+        const distances = new Array<number>(len).fill(Infinity); // initialize distances to infinity
+        const visited = new Array<boolean>(len).fill(false); // initialize visited flags to false
+        const prevNodes = new Array<number>(len).fill(-1); // initialize previous nodes to -1
 
-    //     queue.enqueue(start);
-    //     while (queue.size()) {
-    //         let curr_node = queue.dequeue();
-    //         let edge: Edge = { from: 0, to: 0 };
+        distances[start] = 0; // distance from start node to itself is 0
 
-    //         if (curr_node) nodes[curr_node] = 2;
-    //         for (let i = 0; i < this.#map.size; i++) {
-    //             if (curr_node != undefined && (this.#map.map[curr_node][i] !== 0) && nodes[i] === 0) {
-    //                 queue.enqueue(i);
-    //                 nodes[i] = 1;
+        while (!visited[end]) { // repeat until the end node is visited
+            let minDistance = Infinity;
+            let minNode = -1;
 
-    //                 edge.from = curr_node;
-    //                 edge.to = i;
-    //                 edges.push(edge);
+            // find the node with minimum distance
+            for (let i = 0; i < len; i++) {
+                if (!visited[i] && distances[i] <= minDistance) {
+                    minDistance = distances[i];
+                    minNode = i;
+                }
+            }
 
-    //                 if (curr_node === end) break;
-    //             }
-    //         }
-    //     }
+            visited[minNode] = true; // mark the node as visited
 
-    //     while (edges.size()) {
-    //         let edge = edges.pop();
+            // update distances of adjacent nodes if a shorter path is found
+            for (let j = 0; j < len; j++) {
+                if (graph[minNode][j] != 0 && !visited[j]) { // if there is an edge and the node is not visited
+                    const distance = distances[minNode] + graph[minNode][j];
+                    if (distance < distances[j]) {
+                        distances[j] = distance;
+                        prevNodes[j] = minNode;
+                    }
+                }
+            }
+        }
 
-    //         if (edge?.to === end) {
-    //             end = edge.from;
-    //             route.push(end + 1);
-    //         }
-    //     }
+        // construct the path from start to end node
+        const path: number[] = [];
+        let currentNode = end;
+        while (currentNode != -1) {
+            path.unshift(currentNode);
+            currentNode = prevNodes[currentNode];
+        }
+        console.log(path);
 
-    //     route = route.reverse();
+        // construct the points array from path
+        const points: Points[] = [];
+        path.forEach(id => {
+            this.#map.points.forEach(point => {
+                if (id === Number(point.id.at(0))) {
+                    points.push(point);
+                }
+            });
+        });
 
-    //     let points: Points[] = [];
-
-    //     route.forEach(element => {
-    //         let elem = undefined
-    //         this.#map.points.forEach(point => { if (Number(point.id[0]) === element) elem = point })
-    //         if (elem) points.push(elem);
-    //     });
-
-    //     return points;
-    // }
+        return points;
+    }
 
 
     // Returns nearest gas station point from Points[]
