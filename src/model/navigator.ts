@@ -89,6 +89,7 @@ export class Navigator {
 
 
     // Returns nearest gas station point from Points[]
+    // ! Change output type from Points to GasStation
     public static findGasStation(startPoint: Points | undefined): Points | undefined {
         if (!startPoint) return undefined
         // Todo

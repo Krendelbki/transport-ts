@@ -1,3 +1,4 @@
+import { Stack } from './stack';
 interface QueueInterface<T> {
     enqueue(element: T): void;
     dequeue(): T | undefined;

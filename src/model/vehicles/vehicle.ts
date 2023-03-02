@@ -44,7 +44,7 @@ export class Vehicle {
 	}
 
 	#needToFuel() {
-		if (this._gasLevel <= 0.15 * this.gasCapacity) {
+		if (this._gasLevel <= 0.2 * this.gasCapacity) {
 			this._path = []
 			const gasStation = Navigator.findGasStation(this._point)
 
@@ -56,6 +56,8 @@ export class Vehicle {
 
 	#checkNextRoutePoint() {
 		if (!this._route.length || this._path.length || !this._point) return
+
+		this.#needToFuel()
 
 		this._path = [...this.#navigator.findRoute(this._point, this._route[0])]
 		this._nextRoutePoint = this._route[0]
@@ -111,7 +113,6 @@ export class Vehicle {
 			}
 
 			this.#updateRotation(next_next)
-			this.#needToFuel()
 		}
 		else {
 			this._x += dx
