@@ -87,7 +87,6 @@ export function App() {
     // Keyboard controls
     useEffect(() => {
         const keyHandler = (e: KeyboardEvent) => {
-            console.log(e.key.toLowerCase())
             switch (e.key.toLowerCase()) {
 
                 case 'arrowup':
