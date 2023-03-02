@@ -35,7 +35,9 @@ export class GameMap {
         const dy = endPoint.y - startPoint.y
 
         const length = Math.floor(Math.sqrt(dx * dx + dy * dy) * 100) / 100
+
         this.#map[from][to] = length;
+        this.#map[to][from] = length; 
     }
 
     get points() { return this.#points }
