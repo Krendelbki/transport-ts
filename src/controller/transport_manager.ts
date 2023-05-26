@@ -49,21 +49,30 @@ export class Manager {
 
         switch (config) {
             case ManagerConfiguration.Default.key:
-                //this.#defaultSetup(w, h)
+                this.#clear()
+                this.#defaultSetup(w, h)
                 break
 
             case ManagerConfiguration.Bus.key:
+                this.#clear()
                 this.#busSetup(w, h)
                 break
 
-            /*
             case ManagerConfiguration.Truck.key:
+                this.#clear()
                 this.#truckSetup(w, h)
-                break*/
+                break
 
             default:
+                this.#clear()
                 this.#defaultSetup(w, h)
         }
+    }
+
+    #clear(){
+        Point.reset()
+        this.#vehicles = []
+        this.#navigator = new Navigator(new GameMap([], []))
     }
 
     #defaultMap(maxW: number, maxH: number) {
@@ -104,12 +113,12 @@ export class Manager {
 
         this.addVehicle(new Vehicle("222222", 60,
             100, 100, 1,
-            this.#navigator.findRoute(this.points[random(0, this.points.length)], this.points[random(0, this.points.length)]),
+            [this.points[random(0, this.points.length-1)], this.points[random(0, this.points.length-1)]],
             this.points[0], this.#navigator))
 
         this.addVehicle(new Vehicle("111111", 60,
             100, 100, 1,
-            this.#navigator.findRoute(this.points[random(0, this.points.length)], this.points[random(0, this.points.length)]),
+            [this.points[random(0, this.points.length-1)], this.points[random(0, this.points.length-1)]],
             this.points[0], this.#navigator))
     }
 
@@ -117,28 +126,21 @@ export class Manager {
     #busSetup(maxW: number, maxH: number) {
         this.#defaultMap(maxW, maxH)
 
-        this.addVehicle(new Bus("101", 40, 200, 100, 1, [
-            this.points[0],
-            this.points[5],
-            this.points[7],
-        ], this.points[0], this.#navigator))
-
-        this.addVehicle(new Bus("102", 50, 200, 100, 1, [
-            this.points[7],
-            this.points[0],
-            this.points[5],
-        ], this.points[0], this.#navigator))
+        this.addVehicle(new Bus("222222", 60,
+            100, 100, 1,
+            [this.points[random(0, this.points.length-1)], this.points[random(0, this.points.length-1)]],
+            this.points[0], this.#navigator))
     }
 
     #truckSetup(maxW: number, maxH: number) {
         this.#defaultMap(maxW, maxH)
 
-        // this.addVehicle(new Truck("Атб", 30, 300, 200, 2, [
-        //     this.points[1],
-        //     this.points[8],
-        //     this.points[6],
-        //     this.points[4],
-        // ], this.points[8], 1000, 0))
+        this.addVehicle(new Truck("Атб", 30, 300, 200, 2, [
+            this.points[1],
+            this.points[8],
+            this.points[6],
+            this.points[4],
+        ], this.points[8], 1000, this.#navigator))
     }
 
     get map() { return this.#navigator.map }

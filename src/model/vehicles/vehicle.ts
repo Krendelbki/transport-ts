@@ -55,17 +55,17 @@ export class Vehicle {
 		}
 	}
 
-	protected updateGasLevel() { if (this._gasLevel > this.gasConsumption && this.nextPoint()) this._gasLevel -= this._gasConsumption }
+	protected updateGasLevel() {
+		if (this._gasLevel > this.gasConsumption && this.nextPoint()) this._gasLevel -= this._gasConsumption
+		else if (this._gasLevel <= this.gasConsumption) { this.speed = 0; this._gasLevel = 0 }
+	}
 
 	#checkNextRoutePoint() {
-		if ( this._path.length || !this._point) return
-		if (!this._route.length) {
-			this._route.push(this.#navigator.points[random(0, this.#navigator.points.length - 1)])
-		}
+		if (this._path.length || !this._point) return
 
-		if (this._point.type !== 2) {
-			this.#needToFuel()
-		}
+		if (!this._route.length) this._route.push(this.#navigator.points[random(0, this.#navigator.points.length - 1)])
+
+		if (this._point.type !== PointType.GasStation) this.#needToFuel()
 
 		this._path = [...this.#navigator.findRoute(this._point, this._route[0])]
 		this._nextRoutePoint = this._route[0]
@@ -76,7 +76,6 @@ export class Vehicle {
 
 	protected updatePosition() {
 		if (!this._point || !this._canMove) return
-
 
 		this.#checkNextRoutePoint()
 		const next: Points | undefined = this.nextPoint()

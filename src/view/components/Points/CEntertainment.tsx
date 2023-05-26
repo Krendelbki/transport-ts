@@ -19,7 +19,7 @@ export default function CEntertainment({ point }: Props) {
 			</Point>
 
 			<Popup isVisible={popup} setIsVisible={setPopup} x={point.x + 40} y={point.y - 30}>
-				<h4>Дозвілля</h4>
+				<h4>Дозвілля {point.id}</h4>
 				<p>Час зупинки: {point.stopDuration / 1000}c</p>
 			</Popup>
 		</>

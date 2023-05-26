@@ -46,4 +46,6 @@ export class Point {
 
     get currTakenSlots(): number { return this._currTakenSlots }
     set currTakenSlots(currTakenSlots: number) { this._currTakenSlots = currTakenSlots }
+
+    public static reset() { Point._uid = 0}
 }
