@@ -1,13 +1,13 @@
 import { createContext, useState, useRef, useEffect } from 'react'
-import { Mannager, MannagerConfiguration, Points, Vehicles } from '../controller/transport_manager'
+import { Manager, ManagerConfiguration, Points, Vehicles } from '../controller/transport_manager'
 import { GameMap } from '../model/map'
 import Markup from './Markup'
 import { InitialState } from './types/view'
 
-const DELTA = 200
+const DELTA = 100
 
 export const AppContext = createContext(InitialState)
-const mannager = new Mannager()
+const manager = new Manager()
 
 export function App() {
     const [timeout, setTimeout] = useState<number>(1000)
@@ -27,11 +27,11 @@ export function App() {
         const maxW = tableRef.current.clientWidth
         const maxH = tableRef.current.clientHeight
 
-        mannager.setConfiguration(MannagerConfiguration.Default, maxW, maxH)
+        manager.setConfiguration(ManagerConfiguration.Default, maxW, maxH)
 
-        setPoints(mannager.points)
-        setVehicles(mannager.vehicles)
-        setMap(mannager.map)
+        setPoints(manager.points)
+        setVehicles(manager.vehicles)
+        setMap(manager.map)
     }, [tableRef])
 
     useEffect(() => {
@@ -53,11 +53,11 @@ export function App() {
         const maxW = tableRef.current.clientWidth
         const maxH = tableRef.current.clientHeight
 
-        mannager.setConfiguration(config, maxW, maxH)
+        manager.setConfiguration(config, maxW, maxH)
 
-        setPoints(mannager.points)
-        setVehicles(mannager.vehicles)
-        setMap(mannager.map)
+        setPoints(manager.points)
+        setVehicles(manager.vehicles)
+        setMap(manager.map)
 
         setIsActive(false)
     }
@@ -117,10 +117,10 @@ export function App() {
     }, [timeout])
 
     function update() {
-        mannager.update()
-        setPoints(mannager.points)
-        setVehicles(mannager.vehicles)
-        setMap(mannager.map)
+        manager.update()
+        setPoints(manager.points)
+        setVehicles(manager.vehicles)
+        setMap(manager.map)
     }
 
     return (

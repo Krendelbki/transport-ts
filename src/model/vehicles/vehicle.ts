@@ -1,9 +1,8 @@
-import { Entertainment } from './../points/entertainment_point';
+import { Entertainment } from '../points/entertainment_point';
 import { Navigator } from '../navigator';
 import { Points } from '../../controller/transport_manager';
 import { PointType } from '../points/point';
 import { GasStation } from '../points/gas_station_point';
-import { GameMap } from '../map';
 
 export enum VehicleType {
 	CAR,
@@ -11,6 +10,8 @@ export enum VehicleType {
 	TRUCK,
 	Bike,
 }
+
+export function random(min: number, max: number) { return Math.floor(Math.random() * (max - min + 1) + min) }
 
 export class Vehicle {
 	#navigator: Navigator
@@ -38,9 +39,11 @@ export class Vehicle {
 
 	#updateRotation(next: Points | undefined) {
 		if (!next) return
-		let nextRotation = Math.atan2(next.y - this._y, next.x - this._x)
 
-		this._rotation = nextRotation
+		let angle = Math.atan2(next.y - this._y, next.x - this._x);
+		angle = (angle + 180) % 360 - 180
+
+		this._rotation = angle
 	}
 
 	#needToFuel() {
@@ -55,7 +58,10 @@ export class Vehicle {
 	protected updateGasLevel() { if (this._gasLevel > this.gasConsumption && this.nextPoint()) this._gasLevel -= this._gasConsumption }
 
 	#checkNextRoutePoint() {
-		if (!this._route.length || this._path.length || !this._point) return
+		if ( this._path.length || !this._point) return
+		if (!this._route.length) {
+			this._route.push(this.#navigator.points[random(0, this.#navigator.points.length - 1)])
+		}
 
 		if (this._point.type !== 2) {
 			this.#needToFuel()
@@ -70,6 +76,7 @@ export class Vehicle {
 
 	protected updatePosition() {
 		if (!this._point || !this._canMove) return
+
 
 		this.#checkNextRoutePoint()
 		const next: Points | undefined = this.nextPoint()
@@ -99,6 +106,7 @@ export class Vehicle {
 
 					setTimeout(() => {
 						this._canMove = true
+						this.update()
 					}, point.stopDuration)
 				}
 				else if (this._point?.type === PointType.GasStation) {
@@ -110,6 +118,7 @@ export class Vehicle {
 					setTimeout(() => {
 						this._gasLevel += point.getFuel(this.gasCapacity - this.gasLevel)
 						this._canMove = true
+						this.update()
 					}, refuelingTime)
 				}
 			}

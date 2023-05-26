@@ -1,11 +1,6 @@
 import { GameMap } from './map';
 import { Points } from "../controller/transport_manager";
 
-interface Edge {
-    from: number;
-    to: number;
-}
-
 export class Navigator {
     #map: GameMap
 
@@ -55,7 +50,7 @@ export class Navigator {
         // construct the path from start to end node
         const path: number[] = [];
         let currentNode = end;
-        while (currentNode != -1) {
+        while (currentNode !== -1) {
             path.unshift(currentNode);
             currentNode = prevNodes[currentNode];
         }
@@ -69,7 +64,6 @@ export class Navigator {
                 }
             });
         });
-
         return points;
     }
 

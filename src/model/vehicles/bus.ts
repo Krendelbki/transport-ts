@@ -29,13 +29,13 @@ export class Bus extends Vehicle {
 
     update() {
         if (this.speed <= 0 || !this._canMove) return
-        const next = this._nextRoutePoint
+        let next = this._nextRoutePoint
 
         this.updatePosition()
         this.updateGasLevel()
 
         // If Point is in Route, it's BusStop and it just updated => stop and get passengers
-        if (next?.id === this._point?.id &&
+        /*if (next?.id === this._point?.id &&
             this._point?.type === PointType.BusStop &&
             this.x === this._point.x && this.y === this._point.y) {
 
@@ -51,6 +51,6 @@ export class Bus extends Vehicle {
                 this.#numberOfPassengers += point.getPassengers(random(0, this.#maxNumberOfPassengers - this.#numberOfPassengers))
                 this.canMove = true
             }, point.stopDuration)
-        }
+        }*/
     }
 }
