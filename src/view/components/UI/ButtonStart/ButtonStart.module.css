@@ -10,7 +10,7 @@
 	background-position: center;
 	background-repeat: no-repeat;
 
-	background-color: gray;
+	background-color: #d2d2d2;
 
 	transition: background-color 0.3s ease;
 }

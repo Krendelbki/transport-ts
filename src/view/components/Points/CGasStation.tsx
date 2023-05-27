@@ -5,15 +5,16 @@ import { GasStation } from "../../../model/points/gas_station_point"
 
 interface Props {
 	point: GasStation
+	onDropHandler?: any
 }
 
-export default function CGasStation({ point }: Props) {
+export default function CGasStation({ point, onDropHandler }: Props) {
 	const [popup, setPopup] = useState(false)
 
 	return (
 		<>
 			<CPoint x={point.x} y={point.y}>
-				<div title="Заправка" onClick={() => setPopup(prev => !prev)}>
+				<div title="Заправка" onClick={() => setPopup(prev => !prev)} onDrop={(e) => onDropHandler(e, point)} onDragOver={(e) => {e.preventDefault()}}>
 					<img src="./img/icons/gasStation.png" alt="Gas" />
 				</div>
 			</CPoint>

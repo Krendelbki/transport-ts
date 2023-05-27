@@ -1,0 +1,28 @@
+.car_info{
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+
+    border-radius: 10px;
+    background-color: white;
+    color: black;
+    padding: 10px;
+
+    z-index: 100;
+
+    box-shadow: 0 0 8px -2px black;
+
+    cursor: pointer;
+}
+
+.popup h4 {
+    margin-bottom: 10px;
+}
+
+.popup p{
+    white-space: nowrap;
+}

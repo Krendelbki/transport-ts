@@ -1,5 +1,12 @@
 import { Points } from "../controller/transport_manager";
 
+// TODO
+// class Route {
+//     public length: number = 0
+//     public speedLimit: number = 0
+//     public maxWeight: number = 0
+// }
+
 export class GameMap {
     #map: number[][] = [];
     #points: Points[] = [];

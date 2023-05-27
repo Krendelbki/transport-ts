@@ -7,7 +7,7 @@ export interface IAppContext {
     increaseTimeout: () => void
     decreaseTimeout: () => void
 
-    setConfiguration: (config: any) => void
+    setConfiguration: () => void
     isActive: boolean
     setIsActive: React.Dispatch<React.SetStateAction<boolean>>
     restart: () => void
@@ -15,6 +15,9 @@ export interface IAppContext {
     points: Points[]
     vehicles: Vehicles[]
     map: GameMap
+
+    selectedVeh: string
+    setSelectedVeh: React.Dispatch<React.SetStateAction<string>>
 }
 
 export const InitialState: IAppContext = {
@@ -30,5 +33,8 @@ export const InitialState: IAppContext = {
 
     points: [],
     vehicles: [],
-    map: new GameMap([], [])
+    map: new GameMap([], []),
+
+    selectedVeh: "",
+    setSelectedVeh: () => {}
 }

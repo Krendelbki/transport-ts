@@ -5,15 +5,16 @@ import Popup from "../UI/Popup/Popup"
 
 interface Props {
 	point: Warehouse
+	onDropHandler?: any
 }
 
-export default function CWarehouse({ point }: Props) {
+export default function CWarehouse({ point, onDropHandler}: Props) {
 	const [popup, setPopup] = useState(false)
 
 	return (
 		<>
 			<CPoint x={point.x} y={point.y}>
-				<div title="Склад" onClick={() => setPopup(prev => !prev)}>
+				<div title="Склад" onClick={() => setPopup(prev => !prev)} onDrop={e => onDropHandler(e, point)} onDragOver={(e) => {e.preventDefault()}}>
 					<img src="./img/icons/warehouse.png" alt="Warehouse" />
 				</div>
 			</CPoint>

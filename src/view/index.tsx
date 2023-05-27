@@ -1,5 +1,5 @@
 import { createContext, useState, useRef, useEffect } from 'react'
-import { Manager, ManagerConfiguration, Points, Vehicles } from '../controller/transport_manager'
+import { Manager, Points, Vehicles } from '../controller/transport_manager'
 import { GameMap } from '../model/map'
 import Markup from './Markup'
 import { InitialState } from './types/view'
@@ -7,7 +7,7 @@ import { InitialState } from './types/view'
 const DELTA = 100
 
 export const AppContext = createContext(InitialState)
-const manager = new Manager()
+export const manager = new Manager()
 
 export function App() {
     const [timeout, setTimeout] = useState<number>(1000)
@@ -19,6 +19,8 @@ export function App() {
     const [vehicles, setVehicles] = useState<Vehicles[]>([])
     const [map, setMap] = useState<GameMap>(new GameMap([], []))
 
+    const [selectedVeh, setSelectedVeh] = useState<string>("")
+
     const tableRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
@@ -27,7 +29,7 @@ export function App() {
         const maxW = tableRef.current.clientWidth
         const maxH = tableRef.current.clientHeight
 
-        manager.setConfiguration(ManagerConfiguration.Default, maxW, maxH)
+        manager.setConfiguration(maxW, maxH)
 
         setPoints(manager.points)
         setVehicles(manager.vehicles)
@@ -47,13 +49,13 @@ export function App() {
         update()
     }, [time])
 
-    function setConfiguration(config: any) {
+    function setConfiguration() {
         if (!tableRef.current) return
 
         const maxW = tableRef.current.clientWidth
         const maxH = tableRef.current.clientHeight
 
-        manager.setConfiguration(config, maxW, maxH)
+        manager.setConfiguration(maxW, maxH)
 
         setPoints(manager.points)
         setVehicles(manager.vehicles)
@@ -63,8 +65,8 @@ export function App() {
     }
 
     function increaseTimeout() {
-        if (timeout + DELTA >= 3000) {
-            setTimeout(3000)
+        if (timeout + DELTA >= 2000) {
+            setTimeout(2000)
             return
         }
 
@@ -137,7 +139,10 @@ export function App() {
 
             points,
             vehicles,
-            map
+            map,
+
+            selectedVeh,
+            setSelectedVeh
         }}>
             <Markup />
         </AppContext.Provider>

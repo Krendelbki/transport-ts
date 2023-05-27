@@ -9,8 +9,8 @@ export class Navigator {
     }
 
     public findRoute(startPoint: Points, endPoint: Points): Points[] {
-        const start = Number(startPoint.id.at(0));
-        const end = Number(endPoint.id.at(0));
+        const start = Number(startPoint?.id.split('_')[1]);
+        const end = Number(endPoint?.id.split('_')[1]);
 
         const len = this.#map.size; // number of nodes in the graph
         const graph = this.#map.map; // graph to work on
@@ -59,7 +59,7 @@ export class Navigator {
         const points: Points[] = [];
         path.forEach(id => {
             this.#map.points.forEach(point => {
-                if (id === Number(point.id.at(0))) {
+                if (id === Number(point.id.split('_')[1])) {
                     points.push(point);
                 }
             });
@@ -70,7 +70,7 @@ export class Navigator {
 
     // Returns nearest gas station point from Points[]
     public findGasStation(startPoint: Points | undefined): Points | undefined {
-        const start = Number(startPoint?.id.at(0));
+        const start = Number(startPoint?.id.split('_')[1]);
 
         const len = this.#map.size // number of nodes in the graph
         const graph = this.#map.map; // graph to work on
@@ -99,7 +99,7 @@ export class Navigator {
             visited[minNode] = true;
 
             for (const point of this.#map.points) {
-                if (Number(point.id.at(0)) === minNode && point.type === 2) {
+                if (Number(point.id.split('_')[1]) === minNode && point.type === 2) {
                     return point;
                 }
             }

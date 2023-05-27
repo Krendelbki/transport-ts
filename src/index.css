@@ -84,7 +84,7 @@ img {
 }
 
 :root {
-    --bg: #323232;
+    --bg: #0d1117;
     --text: #fff;
 }
 
@@ -99,9 +99,10 @@ body {
 .app {
     position: relative;
     display: flex;
-    min-height: 100vh;
-    min-height: 100dvh;
-    padding: 20px;
+    height: 100vh;
+    height: 100dvh;
+    
+    padding: 30px;
 
     gap: 20px;
 }
@@ -112,12 +113,9 @@ h1 {
 
 .table {
     position: relative;
-    flex: .8;
-    height: calc(100vh - 100px);
+    flex: .75;
 
     padding: 20px;
-    margin-top: 20px;
-
     border-radius: 20px;
 
     background-color: #515151;
@@ -125,25 +123,33 @@ h1 {
 
 menu {
     display: flex;
-    min-height: 100%;
-
-    flex: .2;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
+
+    border-radius: 20px;
+    padding: 20px 30px;
+
+    background-color: #21262D;
+    height: 100%;
+
+    flex: .25;
+
+    user-select: none;
 }
 
 .point {
     position: absolute;
     cursor: pointer;
-    width: 60px;
+    width: 50px;
     aspect-ratio: 1/1;
 
     border-radius: 10px;
 
-    left: -30px;
-    top: -30px;
+    left: -25px;
+    top: -25px;
 
-    z-index: 5;
+    z-index: 3;
 
     background-color: aliceblue;
 }
@@ -155,6 +161,8 @@ menu {
     transform: translate(-50%, -50%);
 
     height: 75%;
+    -webkit-user-drag: none;
+    user-drag: none;
 }
 
 .vehicle{
@@ -162,21 +170,57 @@ menu {
 	position: absolute;
     top: 0;
     left: 0;
+    
+    z-index: 5;
 }
 
 .vehicle img{
-	position: relative;
+    position: relative;
 	cursor: pointer;
 
 	transition: transform .2s ease;
-	width: 100%;
+	height: 100%;
+
+    -webkit-user-drag: none;
+    user-drag: none;
 }
 
-.vehicle .no_fuel {
-    background-color: #ff0000;
+.vehicle.selected img{
+    filter: drop-shadow(0 0 8px #6006e5);
+}
+
+.vehicle.no_fuel {
+    z-index: 4;
+    filter: drop-shadow(0 0 8px red);
 }
 
 .btns{
     display: flex;
     gap: 15px;
+}
+
+.veh_tab{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    
+    width: 100%;
+    background-color: #cccccc;
+
+    border-radius: 20px;
+    margin: 20px 0;
+    padding: 20px 0;
+}
+
+.veh_tab .vehicle{
+    position: relative;
+    
+    height: 100px;
+    rotate: 0deg;
+}
+
+.veh_tab .vehicle img{
+    max-height: 100%;
+
+    filter: drop-shadow(-2px 2px 4px #000);
 }

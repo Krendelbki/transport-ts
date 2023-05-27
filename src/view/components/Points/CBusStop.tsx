@@ -4,16 +4,17 @@ import { BusStop } from "../../../model/points/bus_stop_point"
 import Popup from "../UI/Popup/Popup"
 
 interface Props {
-    point: BusStop
+    point: BusStop,
+    onDropHandler?: any
 }
 
-export default function CBusStop({point}: Props ) {
+export default function CBusStop({point, onDropHandler}: Props ) {
     const [popup, setPopup] = useState(false)
 
     return (
         <>
             <CPoint x={point.x} y={point.y}>
-                <div title="Зупинка" onClick={() => setPopup(prev => !prev)}>
+                <div title="Зупинка" onClick={() => setPopup(prev => !prev)} onDrop={(e) => onDropHandler(e, point)} onDragOver={(e) => {e.preventDefault()}}>
                     <img src="./img/icons/busStop.png" alt="Bus Stop" />
                 </div>
             </CPoint>

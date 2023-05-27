@@ -1,27 +1,27 @@
-import { useState } from "react"
-import Popup from "../UI/Popup/Popup"
+import { useContext } from "react"
 import { Truck } from "../../../model/vehicles/truck"
+import { AppContext } from "../.."
 
-export default function CTruck({ veh, transition }: { veh: Truck, transition: number }) {
-    const [popup, setPopup] = useState(false)
+export default function CTruck({ veh, transition }: { veh?: Truck, transition: number }) {
+    const { selectedVeh, setSelectedVeh } = useContext(AppContext)
 
-    const x = veh.x
-    const y = veh.y
-    const deg = veh.rotation
+    const x = veh?.x || 0
+    const y = veh?.y || 0
+    const deg = veh?.rotation || 0
+
+    const h = 65
 
     return (
         <>
-            <div className="vehicle" style={{ width: "45px", transform: `translate(${x - 22}px, ${y - 75}px) rotate(${deg+90}deg)`, transition: `transform ${transition}ms linear` }} onClick={() => setPopup(prev => !prev)}>
+            <div className={["vehicle", selectedVeh === veh?.uid ? "selected" : "", veh?.gasLevel === 0 ? "no_fuel" : ""].join(" ")}
+                style={{ height: `${h}px`, transform: `translate(${x - h/6}px, ${y - h/2}px) rotate(${deg + 90}deg)`, transition: `transform ${transition + 5}ms linear` }}
+                onClick={() => {
+                    if (selectedVeh === veh?.uid) setSelectedVeh("")
+                    else setSelectedVeh(veh?.uid || "-1")
+                }}
+            >
                 <img src="./img/truck.png" alt="truck" />
             </div>
-
-            <Popup x={x + 30} y={y - 20} isVisible={popup} setIsVisible={setPopup}>
-                <h4>Вантажівка "{veh.number}"</h4>
-                <p>Швидкість: {veh.speed} км/год</p>
-                <p>Кількість палива: {veh.gasLevel} л</p>
-                <p>Максимальна масса: {veh.maxMassOfCargo} кг</p>
-                <p>Масса вантажу : {veh.massOfCargo} кг</p>
-            </Popup>
         </>
     )
 }

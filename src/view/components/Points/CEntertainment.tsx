@@ -4,16 +4,17 @@ import Popup from "../UI/Popup/Popup"
 import { Entertainment } from "../../../model/points/entertainment_point"
 
 interface Props {
-	point: Entertainment
+	point: Entertainment,
+	onDropHandler?: any
 }
 
-export default function CEntertainment({ point }: Props) {
+export default function CEntertainment({ point, onDropHandler }: Props) {
 	const [popup, setPopup] = useState(false)
 
 	return (
 		<>
 			<Point x={point.x} y={point.y}>
-				<div title="Дозвілля" onClick={() => setPopup(prev => !prev)}>
+				<div title="Дозвілля" onClick={() => setPopup(prev => !prev)} onDrop={e => onDropHandler(e, point)} onDragOver={(e) => {e.preventDefault()}}>
 					<img src="./img/icons/popcorn.png" alt="Entertainment" />
 				</div>
 			</Point>

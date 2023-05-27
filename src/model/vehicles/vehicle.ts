@@ -14,7 +14,10 @@ export enum VehicleType {
 export function random(min: number, max: number) { return Math.floor(Math.random() * (max - min + 1) + min) }
 
 export class Vehicle {
-	#navigator: Navigator
+	navigator: Navigator
+
+	public uid = "C_" + ++Vehicle._uid
+	private static _uid = 0
 
 	protected _x: number
 	protected _y: number
@@ -47,9 +50,9 @@ export class Vehicle {
 	}
 
 	#needToFuel() {
-		if (this._gasLevel <= 0.2 * this.gasCapacity) {
+		if (this._gasLevel <= 0.3 * this.gasCapacity) {
 			this._path = []
-			const gasStation: Points | undefined = this.#navigator.findGasStation(this._point);
+			const gasStation: Points | undefined = this.navigator.findGasStation(this._point);
 
 			if (gasStation) this._route = [gasStation, ...this._route]
 		}
@@ -63,11 +66,11 @@ export class Vehicle {
 	#checkNextRoutePoint() {
 		if (this._path.length || !this._point) return
 
-		if (!this._route.length) this._route.push(this.#navigator.points[random(0, this.#navigator.points.length - 1)])
+		if (!this._route.length) this._route.push(this.navigator.points[random(0, this.navigator.points.length - 1)])
 
 		if (this._point.type !== PointType.GasStation) this.#needToFuel()
 
-		this._path = [...this.#navigator.findRoute(this._point, this._route[0])]
+		this._path = [...this.navigator.findRoute(this._point, this._route[0])]
 		this._nextRoutePoint = this._route[0]
 		this._route.shift()
 
@@ -141,7 +144,7 @@ export class Vehicle {
 		(number: string, speed: number, gasCapacity: number, gasLevel: number, gasConsumption: number,
 			route: Points[], point: Points, navigator: Navigator, canMove?: boolean, path?: Points[]) {
 
-		this.#navigator = navigator
+		this.navigator = navigator
 
 		this._x = point.x
 		this._y = point.y

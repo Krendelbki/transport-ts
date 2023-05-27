@@ -14,7 +14,7 @@ export class Point {
 
     protected _numberOfSlots: number = 0
     protected _currTakenSlots: number = 0
-    protected _id: string = ""
+    protected _id: string = "P_" + Point._uid++
     protected _waitingTime: number = 0
 
     protected static _uid: number = 0
@@ -23,8 +23,6 @@ export class Point {
         this._x = x
         this._y = y
         this._numberOfSlots = numberOfSlots
-
-        this._id = Point._uid + "_" + Point._uid++
 
         if (type) this._pointType = type
         if (currTakenSlots) this._currTakenSlots = currTakenSlots
