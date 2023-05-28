@@ -23,6 +23,34 @@ export class Manager {
         if (vehicles) this.#vehicles = vehicles
     }
 
+    getCar(uid: string): Vehicles | undefined {
+        return this.#vehicles.find(el => el.uid === uid)
+    }
+
+    getRoute(uid: string): Points[] { 
+        const veh = this.vehicles.find(el => el.uid === uid)
+        if(!veh) return []
+        
+        const route = [...veh.route || []]
+        const lastPath = veh.lastPath
+        
+        if(lastPath) {
+            route.reverse()
+            route.push(lastPath)
+            route.reverse()
+        }
+        
+        return route
+    }
+
+    removeCar(uid: string) {
+        const i = this.vehicles.findIndex(el => el.uid === uid)
+
+        if (i === -1) return
+
+        this.vehicles.splice(i, 1)
+    }
+
     addPoint(point: Points) {
         this.navigator.addPoint(point)
     }
@@ -42,9 +70,11 @@ export class Manager {
 
         this.#clear()
         this.#defaultMap(w, h)
+
+        this.addVehicle(new Vehicle("111", 50, 100, 100, 1, [], this.points[0], this.navigator))
     }
 
-    #clear(){
+    #clear() {
         Point.reset()
         this.#vehicles = []
         this.navigator = new Navigator(new GameMap([], []))

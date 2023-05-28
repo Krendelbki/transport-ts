@@ -2,13 +2,14 @@
     position: relative;
 
     display: flex;
-    flex-direction: column;
     align-items: center;
+    flex-direction: column;
 
     width: 100%;
+    gap: 5px;
 
     border-radius: 10px;
-    background-color: white;
+    background-color: #d2d2d2;
     color: black;
     padding: 10px;
 
@@ -17,6 +18,69 @@
     box-shadow: 0 0 8px -2px black;
 
     cursor: pointer;
+
+    animation: show .3s ease forwards;
+}
+
+@keyframes show {
+    0%{ transform: scaleY(0); }
+    100%{ transform: scaleY(1); }
+}
+
+
+.car_info_item{
+    display: flex;
+    width: 100%;
+
+    gap: 1ch;
+
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.global{
+    position: fixed;
+
+    background-color: #21262D;
+
+    color: white;
+
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    gap: 10px;
+
+    padding: 30px 0;
+
+    min-height: 50%;
+    border-radius: 20px;
+    box-shadow: 0 0 10px #000;
+
+    top: 50%;
+    left: 40%;
+
+    transform: translate(-50%, -50%);
+
+    width: 50%;
+
+    cursor: zoom-out;
+
+    animation: apear .3s ease forwards;
+}
+
+@keyframes apear {
+    0%{ opacity: 0; }
+    100%{ opacity: 1; }
+}
+
+.global input{
+    color: white;
+    border-bottom-color: white;
+}
+
+.global input[type="checkbox"]::before{
+    background-color: white;
 }
 
 .popup h4 {

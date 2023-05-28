@@ -96,6 +96,78 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+input{
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    
+    border-bottom: 2px solid black ;
+    font-size: 16px;
+    text-align: center;
+    
+    width: 10ch;
+}
+
+input[type="checkbox"]{
+    all: unset;
+    position: relative;
+    height: 16px;
+    margin: 0 1ch;
+}
+
+label{
+    cursor: pointer;
+}
+
+input[type="checkbox"]::before{
+    content: '';
+    position: absolute;
+    
+    top: 50%;
+    left: 50%;
+    
+    transform: translate(-50%, -50%);
+    
+    display: block;
+    
+    height: 100%;
+    aspect-ratio: 1;
+    
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+
+
+input[type="checkbox"]:checked::after{
+    content: "";
+    position: absolute;
+    
+    top: 50%;
+    left: 50%;
+    
+    transform: translate(-50%, -50%) rotate(-45deg);
+    
+    display: block;
+    
+    height: 5px;
+    width: 10px;
+
+    border: 2px solid green;
+
+    border-top: none;
+    border-right: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 .app {
     position: relative;
     display: flex;
@@ -143,15 +215,45 @@ menu {
     cursor: pointer;
     width: 50px;
     aspect-ratio: 1/1;
-
+    
     border-radius: 10px;
-
+    
     left: -25px;
     top: -25px;
-
     z-index: 3;
-
+    
     background-color: aliceblue;
+}
+
+.point.selected {
+    box-shadow: 0 0 0 5px blueviolet !important;
+}
+
+.point.selected::before {
+    all: unset;
+    
+    content: attr(data-number);
+    position: absolute;
+
+    top: 50%;
+    right: calc(-100% + 2px);
+
+    background-color: blueviolet;
+    padding: 10px;
+
+    z-index: 4;
+
+    box-shadow: none;
+    border-radius: 0px 10px 10px 0px;
+
+    transform: translate(-50%, -50%);
+}
+
+.col{
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
 }
 
 .point img {
@@ -208,7 +310,6 @@ menu {
     background-color: #cccccc;
 
     border-radius: 20px;
-    margin: 20px 0;
     padding: 20px 0;
 }
 
@@ -223,4 +324,31 @@ menu {
     max-height: 100%;
 
     filter: drop-shadow(-2px 2px 4px #000);
+}
+
+.button{
+    position: relative;
+    border-radius: 10px;
+    background-color: #d2d2d2;
+    
+    width: 50px;
+    aspect-ratio: 1;
+    
+    padding: 10px;
+
+    transition: all .3s ease;
+}
+
+.button:hover{
+    background-color: #a2a2a2;
+}
+
+.button img{
+    max-width: 100%;
+    -webkit-user-drag: none;
+    user-drag: none;
+}
+
+.button.selected{
+    outline: 3px solid blueviolet;
 }

@@ -8,6 +8,7 @@ const DELTA = 100
 
 export const AppContext = createContext(InitialState)
 export const manager = new Manager()
+export function round(num: number) { return Math.round((num + Number.EPSILON) * 100) / 100 }
 
 export function App() {
     const [timeout, setTimeout] = useState<number>(1000)
@@ -20,6 +21,9 @@ export function App() {
     const [map, setMap] = useState<GameMap>(new GameMap([], []))
 
     const [selectedVeh, setSelectedVeh] = useState<string>("")
+
+    const [isRouteShow, setIsRouteShow] = useState<boolean>(false)
+    const [isCarEditing, setIsCarEditing] = useState<boolean>(false)
 
     const tableRef = useRef<HTMLDivElement>(null)
 
@@ -100,12 +104,12 @@ export function App() {
                     break
 
                 case ' ':
-                    setIsActive(prev => !prev)
+                    if (!isCarEditing) setIsActive(prev => !prev)
                     break
 
                 case 'r':
                 case 'к':
-                    restart()
+                    if (!isCarEditing) restart()
                     break
 
                 default:
@@ -116,7 +120,7 @@ export function App() {
         window.addEventListener('keydown', keyHandler)
 
         return () => window.removeEventListener('keydown', keyHandler)
-    }, [timeout])
+    }, [timeout, isCarEditing])
 
     function update() {
         manager.update()
@@ -142,7 +146,13 @@ export function App() {
             map,
 
             selectedVeh,
-            setSelectedVeh
+            setSelectedVeh,
+
+            isRouteShow,
+            setIsRouteShow,
+
+            isCarEditing,
+            setIsCarEditing,
         }}>
             <Markup />
         </AppContext.Provider>

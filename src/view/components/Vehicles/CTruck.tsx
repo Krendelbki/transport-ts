@@ -3,7 +3,7 @@ import { Truck } from "../../../model/vehicles/truck"
 import { AppContext } from "../.."
 
 export default function CTruck({ veh, transition }: { veh?: Truck, transition: number }) {
-    const { selectedVeh, setSelectedVeh } = useContext(AppContext)
+    const { selectedVeh, setSelectedVeh, setIsCarEditing } = useContext(AppContext)
 
     const x = veh?.x || 0
     const y = veh?.y || 0
@@ -16,7 +16,7 @@ export default function CTruck({ veh, transition }: { veh?: Truck, transition: n
             <div className={["vehicle", selectedVeh === veh?.uid ? "selected" : "", veh?.gasLevel === 0 ? "no_fuel" : ""].join(" ")}
                 style={{ height: `${h}px`, transform: `translate(${x - h/6}px, ${y - h/2}px) rotate(${deg + 90}deg)`, transition: `transform ${transition + 5}ms linear` }}
                 onClick={() => {
-                    if (selectedVeh === veh?.uid) setSelectedVeh("")
+                    if (selectedVeh === veh?.uid) { setSelectedVeh(""); setIsCarEditing(false)}
                     else setSelectedVeh(veh?.uid || "-1")
                 }}
             >
