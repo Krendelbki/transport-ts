@@ -30,7 +30,7 @@ export class Bus extends Vehicle {
     update() {
         if (this.speed <= 0 || !this._canMove) return
 
-        this.updatePosition()
+        this.updatePosition(false)
         this.updateGasLevel()
         
         let next = this._nextRoutePoint

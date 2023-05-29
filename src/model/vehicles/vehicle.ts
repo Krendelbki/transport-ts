@@ -3,6 +3,7 @@ import { Navigator } from '../navigator';
 import { Points } from '../../controller/transport_manager';
 import { PointType } from '../points/point';
 import { GasStation } from '../points/gas_station_point';
+import { GameMap } from "../map";
 
 export enum VehicleType {
 	CAR,
@@ -49,10 +50,10 @@ export class Vehicle {
 		this._rotation = angle
 	}
 
-	#needToFuel() {
+	#needToFuel(isTruck: boolean) {
 		if (this._gasLevel <= 0.3 * this.gasCapacity) {
 			this._path = []
-			const gasStation: Points | undefined = this.navigator.findGasStation(this._point);
+			const gasStation: Points | undefined = this.navigator.findGasStation(this._point, this._speed, isTruck);
 
 			if (gasStation) this._route = [gasStation, ...this._route]
 		}
@@ -63,24 +64,25 @@ export class Vehicle {
 		else if (this._gasLevel <= this.gasConsumption) { this.speed = 0; this._gasLevel = 0 }
 	}
 
-	#checkNextRoutePoint() {
+	#checkNextRoutePoint(isTruck?: boolean) {
 		if (this._path.length || !this._point) return
 
+		//console.log(this.navigator.points.length)
 		if (!this._route.length) this._route.push(this.navigator.points[random(0, this.navigator.points.length - 1)])
 
-		if (this._point.type !== PointType.GasStation) this.#needToFuel()
+		if (this._point.type !== PointType.GasStation) this.#needToFuel(isTruck!)
 
-		this._path = [...this.navigator.findRoute(this._point, this._route[0])]
+		this._path = [...this.navigator.findRoute(this._point, this._route[0], this._speed, isTruck!)]
 		this._nextRoutePoint = this._route[0]
 		this._route.shift()
 
 		if (this._path.length) this.#updateRotation(this.nextPoint())
 	}
 
-	protected updatePosition() {
+	protected updatePosition(isTruck?: boolean) {
 		if (!this._point || !this._canMove) return
 
-		this.#checkNextRoutePoint()
+		this.#checkNextRoutePoint(isTruck)
 		const next: Points | undefined = this.nextPoint()
 
 		if (!next) return
@@ -108,7 +110,7 @@ export class Vehicle {
 
 					setTimeout(() => {
 						this._canMove = true
-						this.update()
+						this.update(isTruck)
 					}, point.stopDuration)
 				}
 				else if (this._point?.type === PointType.GasStation) {
@@ -120,7 +122,7 @@ export class Vehicle {
 					setTimeout(() => {
 						this._gasLevel += point.getFuel(this.gasCapacity - this.gasLevel)
 						this._canMove = true
-						this.update()
+						this.update(isTruck)
 					}, refuelingTime)
 				}
 			}
@@ -133,10 +135,10 @@ export class Vehicle {
 		}
 	}
 
-	update() {
+	update(isTruck?: boolean) {
 		if (this.speed <= 0 || !this._canMove) return
 
-		this.updatePosition()
+		this.updatePosition(isTruck)
 		this.updateGasLevel()
 	}
 
