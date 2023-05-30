@@ -8,11 +8,11 @@ export class Navigator {
         this.#map = map
     }
 
-    public findRoute(startPoint: Points, endPoint: Points): Points[] {
+    public findRoute(startPoint: Points, endPoint: Points, speed: number, isTruck: boolean): Points[] {
         const start = Number(startPoint?.id.split('_')[1]);
         const end = Number(endPoint?.id.split('_')[1]);
 
-        const len = this.#map.size; // number of nodes in the graph
+        const len = this.#map.size;
         const graph = this.#map.map; // graph to work on
 
         const distances = new Array<number>(len).fill(Infinity); // initialize distances to infinity
@@ -37,8 +37,13 @@ export class Navigator {
 
             // update distances of adjacent nodes if a shorter path is found
             for (let j = 0; j < len; j++) {
-                if (graph[minNode][j] != 0 && !visited[j]) { // if there is an edge and the node is not visited
-                    const distance = distances[minNode] + graph[minNode][j];
+                if ((graph[minNode][j].length !== 0)
+                    && !visited[j]
+                    && speed <= graph[minNode][j].speedLimit
+                    && ((isTruck && graph[minNode][j].trucksAllowed) || !isTruck)
+                )
+                { // if there is an edge and the node is not visited
+                    const distance = distances[minNode] + graph[minNode][j].length;
                     if (distance < distances[j]) {
                         distances[j] = distance;
                         prevNodes[j] = minNode;
@@ -57,19 +62,38 @@ export class Navigator {
 
         // construct the points array from path
         const points: Points[] = [];
-        path.forEach(id => {
+        let prev = this.#map.points[0];
+        path.forEach(path_id => {
             this.#map.points.forEach(point => {
-                if (id === Number(point.id.split('_')[1])) {
+                let point_id = Number(point.id.split('_')[1])
+                if (path_id === point_id) {
                     points.push(point);
                 }
             });
         });
+
+        //console.clear()
+
+        if (points.length === 1 && !this.#map.checkRoute(startPoint, points[0])){
+            return []
+        } else if (points.length === 1 && this.#map.checkRoute(startPoint, points[0])) {
+            return []
+        }
+
+        /*console.log("Start end:",[startPoint, endPoint])
+        console.log(points)
+        for (let i = 0; i < points.length; ++i) {
+            if (i !== points.length - 1) {
+                console.log(points[i], points[i+1], this.#map.checkRoute(points[i], points[i+1]))
+            }
+        }*/
+
         return points;
     }
 
 
     // Returns nearest gas station point from Points[]
-    public findGasStation(startPoint: Points | undefined): Points | undefined {
+    public findGasStation(startPoint: Points | undefined, speed: number, isTruck: boolean): Points | undefined {
         const start = Number(startPoint?.id.split('_')[1]);
 
         const len = this.#map.size // number of nodes in the graph
@@ -99,15 +123,19 @@ export class Navigator {
             visited[minNode] = true;
 
             for (const point of this.#map.points) {
-                if (Number(point.id.split('_')[1]) === minNode && point.type === 2) {
+                if (Number(point.id.split('_')[1]) === minNode && point.type === 2 && this.#map.checkRoute(startPoint!, point)) {
                     return point;
                 }
             }
 
             // update distances of adjacent nodes if a shorter path is found
             for (let j = 0; j < len; j++) {
-                if (graph[minNode][j] != 0 && !visited[j]) { // if there is an edge and the node is not visited
-                    const distance = distances[minNode] + graph[minNode][j];
+                if ((graph[minNode][j].length !== 0 && graph[j][minNode].length !== 0)
+                    && !visited[j]
+                    && speed <= graph[minNode][j].speedLimit
+                    && ((isTruck && graph[minNode][j].trucksAllowed) || !isTruck)
+                ) { // if there is an edge and the node is not visited
+                    const distance = distances[minNode] + graph[minNode][j].length;
                     if (distance < distances[j]) {
                         distances[j] = distance;
                         prevNodes[j] = minNode;
@@ -121,8 +149,8 @@ export class Navigator {
         this.#map.addPoint(point)
     }
 
-    addRoute(from: number, to: number) {
-        this.#map.addRoute(from, to)
+    addRoute(from: number, to: number, speedLimit: number, trucksAllowed: boolean) {
+        this.#map.addRoute(from, to, speedLimit, trucksAllowed);
     }
 
     get points() { return this.#map.points }

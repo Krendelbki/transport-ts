@@ -14,7 +14,7 @@ export class Truck extends Vehicle {
     update() {
         if (this.speed <= 0 || !this._canMove) return
         
-        this.updatePosition()
+        this.updatePosition(true)
         this.updateGasLevel()
         
         const next = this._nextRoutePoint
@@ -45,7 +45,7 @@ export class Truck extends Vehicle {
 
 					this._canMove = false
 
-					const refuelingTime = (this.gasCapacity - this.gasLevel) * 1000 / point.refuellingSpeedCoef
+					const refuelingTime = (this.gasCapacity - this.gasLevel) * (1000 / 2) / point.refuellingSpeedCoef
 
 					setTimeout(() => {
 						this._gasLevel += point.getFuel(this.gasCapacity - this.gasLevel)

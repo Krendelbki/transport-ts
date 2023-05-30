@@ -55,11 +55,11 @@ export class Manager {
         this.navigator.addPoint(point)
     }
 
-    addRoute(from: number, to: number) {
+    addRoute(from: number, to: number, speedLimit: number, trucksAllowed: boolean) {
         if (from < 0 || to < 0 || from >= this.navigator.points.length || to >= this.navigator.points.length)
             throw new Error("(Manager) Invalid index of point in route creation")
 
-        this.navigator.addRoute(from, to)
+        this.navigator.addRoute(from, to, speedLimit, trucksAllowed)
     }
 
     addVehicle(vehicle: Vehicles) { this.#vehicles.push(vehicle) }
@@ -85,31 +85,31 @@ export class Manager {
         this.addPoint(new Warehouse(maxW * 0.1, maxH * 0.9, 5, random(10000, 50000)))
         this.addPoint(new GasStation(maxW * 0.15, maxH * 0.55, 5, 10, 2000))
 
-        this.addRoute(0, 2);
-        this.addRoute(1, 2);
+        this.addRoute(0, 2, 100, false);
+        this.addRoute(1, 2, 100,true);
 
         this.addPoint(new Entertainment(maxW * 0.3, maxH * 0.7, 5, random(3000, 10000)))
-        this.addRoute(2, 3);
+        this.addRoute(3, 2, 100, false);
 
         this.addPoint(new Warehouse(maxW * 0.35, maxH * 0.2, 5, random(10000, 50000)))
-        this.addRoute(3, 4);
-        this.addRoute(0, 4);
+        this.addRoute(3, 4, 100,false);
+        this.addRoute(0, 4, 100, false);
 
         this.addPoint(new BusStop(maxW * 0.6, maxH * 0.4, 5, 20, 3000))
-        this.addRoute(4, 5);
-        this.addRoute(3, 5);
+        this.addRoute(4, 5, 100,true);
+        this.addRoute(3, 5, 100,true);
 
         this.addPoint(new GasStation(maxW * 0.9, maxH * 0.1, 5, 5, 1000))
-        this.addRoute(4, 6);
+        this.addRoute(4, 6, 100,true);
 
         this.addPoint(new Entertainment(maxW * 0.6, maxH * 0.7, 5, random(1000, 5000)))
-        this.addRoute(5, 7);
-        this.addRoute(6, 7);
+        this.addRoute(5, 7, 100,true);
+        this.addRoute(6, 7, 100,true);
 
         this.addPoint(new BusStop(maxW * 0.9, maxH * 0.9, 5, 50, 10000))
-        this.addRoute(1, 8);
-        this.addRoute(7, 8);
-        this.addRoute(6, 8);
+        this.addRoute(1, 8, 100,true);
+        this.addRoute(7, 8, 100,true);
+        this.addRoute(6, 8, 100,true);
     }
 
 
