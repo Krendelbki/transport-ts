@@ -20,6 +20,8 @@ export class Vehicle {
 	public uid = "C_" + ++Vehicle._uid
 	private static _uid = 0
 
+	private _isRouteRandom = true
+
 	protected _x: number
 	protected _y: number
 	protected _rotation: number = 0
@@ -67,8 +69,9 @@ export class Vehicle {
 	#checkNextRoutePoint(isTruck?: boolean) {
 		if (this._path.length || !this._point) return
 
-		//console.log(this.navigator.points.length)
-		if (!this._route.length) this._route.push(this.navigator.points[random(0, this.navigator.points.length - 1)])
+		if (!this._route.length && this._isRouteRandom) {
+			for (let i = 0; i < 5; i++) this._route.push(this.navigator.points[random(0, this.navigator.points.length - 1)])
+		}
 
 		if (this._point.type !== PointType.GasStation) this.#needToFuel(isTruck!)
 
@@ -142,6 +145,9 @@ export class Vehicle {
 		this.updateGasLevel()
 	}
 
+	clearPath() { this._path = this._path.at(0) ? [this._path[0]] : [] }
+	clearRoute() { this._route = [] }
+
 	constructor
 		(number: string, speed: number, gasCapacity: number, gasLevel: number, gasConsumption: number,
 			route: Points[], point: Points, navigator: Navigator, canMove?: boolean, path?: Points[]) {
@@ -164,8 +170,20 @@ export class Vehicle {
 		if (canMove) this._canMove = canMove
 	}
 
+	get route() { return this._route }
+	get lastPath() {
+		if (this._path.length) return this._path[this._path.length - 1]
+		else return null
+	}
+
+	get isRouteRandom() { return this._isRouteRandom }
+	set isRouteRandom(state: boolean) { this._isRouteRandom = state }
+
 	get type() { return this._type }
+
+	set number(number: string) { this._number = number }
 	get number() { return this._number }
+
 	get rotation() { return this._rotation * (180 / Math.PI) }
 
 	get x() { return this._x }
@@ -181,10 +199,16 @@ export class Vehicle {
 	set speed(speed: number) { if (speed >= 0) this._speed = speed }
 
 	get gasLevel() { return this._gasLevel }
-	set gasLevel(gasLevel: number) { if (gasLevel <= this._gasCapacity) this._gasLevel = gasLevel }
+	set gasLevel(gasLevel: number) {
+		if (gasLevel <= this._gasCapacity) this._gasLevel = gasLevel
+		else this._gasLevel = this._gasCapacity
+	}
 
 	get gasCapacity() { return this._gasCapacity }
-	set gasCapacity(gasCapacity: number) { if (gasCapacity >= this._gasLevel) this._gasCapacity = gasCapacity }
+	set gasCapacity(gasCapacity: number) {
+		if (gasCapacity >= this._gasLevel) this._gasCapacity = gasCapacity
+		else this._gasCapacity = this._gasLevel
+	}
 
 	get gasConsumption() { return this._gasConsumption }
 	set gasConsumption(gasConsumption: number) { if (gasConsumption >= 0) this._gasConsumption = gasConsumption }

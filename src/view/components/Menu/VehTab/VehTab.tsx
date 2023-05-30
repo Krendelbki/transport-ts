@@ -51,8 +51,8 @@ export function onDropHandler(e: any, point: Points) {
 		case VehicleType.CAR:
 			manager.addVehicle(new Vehicle("Null", random(40, 70), 100, 100, 1, [], manager.points[+point.id.split('_')[1]], manager.navigator))
 			break
-
-		case VehicleType.BUS:
+			
+			case VehicleType.BUS:
 			manager.addVehicle(new Bus("Null", random(30, 50), 100, 100, 1, [], manager.points[+point.id.split('_')[1]], manager.navigator, true, [], 30, 0))
 			break
 
