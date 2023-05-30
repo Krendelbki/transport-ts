@@ -39,7 +39,6 @@ export class Navigator {
             for (let j = 0; j < len; j++) {
                 if ((graph[minNode][j].length !== 0)
                     && !visited[j]
-                    && speed <= graph[minNode][j].speedLimit
                     && ((isTruck && graph[minNode][j].trucksAllowed) || !isTruck)
                 )
                 { // if there is an edge and the node is not visited
@@ -72,22 +71,8 @@ export class Navigator {
             });
         });
 
-        //console.clear()
-
-        if (points.length === 1 && !this.#map.checkRoute(startPoint, points[0])){
-            return []
-        } else if (points.length === 1 && this.#map.checkRoute(startPoint, points[0])) {
-            return []
-        }
-
-        /*console.log("Start end:",[startPoint, endPoint])
-        console.log(points)
-        for (let i = 0; i < points.length; ++i) {
-            if (i !== points.length - 1) {
-                console.log(points[i], points[i+1], this.#map.checkRoute(points[i], points[i+1]))
-            }
-        }*/
-
+        if (points.length === 1) return [] 
+        
         return points;
     }
 
@@ -132,7 +117,6 @@ export class Navigator {
             for (let j = 0; j < len; j++) {
                 if ((graph[minNode][j].length !== 0 && graph[j][minNode].length !== 0)
                     && !visited[j]
-                    && speed <= graph[minNode][j].speedLimit
                     && ((isTruck && graph[minNode][j].trucksAllowed) || !isTruck)
                 ) { // if there is an edge and the node is not visited
                     const distance = distances[minNode] + graph[minNode][j].length;
@@ -149,8 +133,8 @@ export class Navigator {
         this.#map.addPoint(point)
     }
 
-    addRoute(from: number, to: number, speedLimit: number, trucksAllowed: boolean) {
-        this.#map.addRoute(from, to, speedLimit, trucksAllowed);
+    addRoad(from: number, to: number, speedLimit: number, trucksAllowed: boolean) {
+        this.#map.addRoad(from, to, speedLimit, trucksAllowed);
     }
 
     get points() { return this.#map.points }

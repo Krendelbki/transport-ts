@@ -28,6 +28,8 @@ export class Vehicle {
 
 	protected _number: string
 	protected _speed: number
+	protected _targetSpeed: number
+
 	protected _type: VehicleType = VehicleType.CAR
 	protected _gasLevel: number = 0
 	protected _gasCapacity: number = 0
@@ -75,6 +77,7 @@ export class Vehicle {
 
 		if (this._point.type !== PointType.GasStation) this.#needToFuel(isTruck!)
 
+		if (!this.route.length) return
 		this._path = [...this.navigator.findRoute(this._point, this._route[0], this._speed, isTruck!)]
 		this._nextRoutePoint = this._route[0]
 		this._route.shift()
@@ -89,6 +92,15 @@ export class Vehicle {
 		const next: Points | undefined = this.nextPoint()
 
 		if (!next) return
+
+		const startId = +this._point.id.split("_")[1]
+		const endId = +next.id.split("_")[1]
+
+		const road = this.navigator.map.map[startId][endId]
+
+		if (road.speedLimit != 0) this._speed = Math.min(road.speedLimit, this._targetSpeed)
+		else this._speed = this._targetSpeed
+
 		const dx = this._speed * Math.cos(this._rotation)
 		const dy = this._speed * Math.sin(this._rotation)
 
@@ -157,6 +169,7 @@ export class Vehicle {
 		this._x = point.x
 		this._y = point.y
 
+		this._targetSpeed = speed
 		this._speed = speed
 		this._number = number
 
@@ -196,7 +209,7 @@ export class Vehicle {
 	set canMove(canMove: boolean) { this._canMove = canMove }
 
 	get speed() { return this._speed }
-	set speed(speed: number) { if (speed >= 0) this._speed = speed }
+	set speed(speed: number) { if (speed >= 0) this._targetSpeed = speed }
 
 	get gasLevel() { return this._gasLevel }
 	set gasLevel(gasLevel: number) {

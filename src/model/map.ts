@@ -1,14 +1,14 @@
 import { Points } from "../controller/transport_manager";
-import { Route } from "./route";
+import { Road } from "./road";
 
 export class GameMap {
-    #map: Route[][] = [];
+    #map: Road[][] = [];
     #points: Points[] = [];
     #ids: number[] = [];
 
     get size() { return this.#map.length }
 
-    constructor(map: Route[][], points: Points[]) {
+    constructor(map: Road[][], points: Points[]) {
         this.#map = map;
         this.#points = points;
 
@@ -20,15 +20,15 @@ export class GameMap {
     get map() { return this.#map }
 
     addPoint(point: Points) {
-        const row = Array<Route>(this.size + 1).fill(new Route(false, 0, 60, true));
+        const row = Array<Road>(this.size + 1).fill(new Road(0, 60, true));
 
-        this.#map.forEach(row => row.push(new Route(false,0, 60,true)));
+        this.#map.forEach(row => row.push(new Road(0, 60,true)));
         this.#map.push(row);
 
         this.#points.push(point);
     }
 
-    addRoute(from: number, to: number, speedLimit: number, trucksAllowed: boolean) {
+    addRoad(from: number, to: number, speedLimit: number, trucksAllowed: boolean) {
         const startPoint = this.#points[from]
         const endPoint = this.#points[to]
 
@@ -37,7 +37,7 @@ export class GameMap {
 
         const length = Math.floor(Math.sqrt(dx * dx + dy * dy) * 100) / 100
 
-        const route = new Route(true, length, speedLimit, trucksAllowed)
+        const route = new Road(length, speedLimit, trucksAllowed)
         this.#map[from][to] = route;
         this.#map[to][from] = route;
     }

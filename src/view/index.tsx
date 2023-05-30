@@ -3,6 +3,7 @@ import { Manager, Points, Vehicles } from '../controller/transport_manager'
 import { GameMap } from '../model/map'
 import Markup from './Markup'
 import { InitialState } from './types/view'
+import { Vehicle } from '../model/vehicles/vehicle'
 
 const DELTA = 100
 
@@ -20,7 +21,7 @@ export function App() {
     const [vehicles, setVehicles] = useState<Vehicles[]>([])
     const [map, setMap] = useState<GameMap>(new GameMap([], []))
 
-    const [selectedVeh, setSelectedVeh] = useState<string>("")
+    const [selectedVeh, setSelectedVeh] = useState<Vehicles | null>(null)
 
     const [isRouteShow, setIsRouteShow] = useState<boolean>(false)
     const [isCarEditing, setIsCarEditing] = useState<boolean>(false)

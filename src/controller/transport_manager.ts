@@ -27,19 +27,22 @@ export class Manager {
         return this.#vehicles.find(el => el.uid === uid)
     }
 
-    getRoute(uid: string): Points[] { 
-        const veh = this.vehicles.find(el => el.uid === uid)
-        if(!veh) return []
-        
-        const route = [...veh.route || []]
+    getRoute(veh: Vehicles | null): Points[] {
+        if (!veh) return []
+
+        const res = this.vehicles.find(el => el.uid === veh.uid)
+
+        if (!res) return []
+
+        const route = [...res.route || []]
         const lastPath = veh.lastPath
-        
-        if(lastPath) {
+
+        if (lastPath) {
             route.reverse()
             route.push(lastPath)
             route.reverse()
         }
-        
+
         return route
     }
 
@@ -55,11 +58,11 @@ export class Manager {
         this.navigator.addPoint(point)
     }
 
-    addRoute(from: number, to: number, speedLimit: number, trucksAllowed: boolean) {
+    addRoad(from: number, to: number, speedLimit: number, trucksAllowed: boolean) {
         if (from < 0 || to < 0 || from >= this.navigator.points.length || to >= this.navigator.points.length)
             throw new Error("(Manager) Invalid index of point in route creation")
 
-        this.navigator.addRoute(from, to, speedLimit, trucksAllowed)
+        this.navigator.addRoad(from, to, speedLimit, trucksAllowed)
     }
 
     addVehicle(vehicle: Vehicles) { this.#vehicles.push(vehicle) }
@@ -85,31 +88,31 @@ export class Manager {
         this.addPoint(new Warehouse(maxW * 0.1, maxH * 0.9, 5, random(10000, 50000)))
         this.addPoint(new GasStation(maxW * 0.15, maxH * 0.55, 5, 10, 2000))
 
-        this.addRoute(0, 2, 100, false);
-        this.addRoute(1, 2, 100,true);
+        this.addRoad(0, 2, 0, false);
+        this.addRoad(1, 2, 0, true);
 
         this.addPoint(new Entertainment(maxW * 0.3, maxH * 0.7, 5, random(3000, 10000)))
-        this.addRoute(3, 2, 100, false);
+        this.addRoad(3, 2, 0, false);
 
         this.addPoint(new Warehouse(maxW * 0.35, maxH * 0.2, 5, random(10000, 50000)))
-        this.addRoute(3, 4, 100,false);
-        this.addRoute(0, 4, 100, false);
+        this.addRoad(3, 4, 30, false);
+        this.addRoad(0, 4, 0, false);
 
         this.addPoint(new BusStop(maxW * 0.6, maxH * 0.4, 5, 20, 3000))
-        this.addRoute(4, 5, 100,true);
-        this.addRoute(3, 5, 100,true);
+        this.addRoad(4, 5, 0, true);
+        this.addRoad(3, 5, 50, true);
 
         this.addPoint(new GasStation(maxW * 0.9, maxH * 0.1, 5, 5, 1000))
-        this.addRoute(4, 6, 100,true);
+        this.addRoad(4, 6, 0, true);
 
         this.addPoint(new Entertainment(maxW * 0.6, maxH * 0.7, 5, random(1000, 5000)))
-        this.addRoute(5, 7, 100,true);
-        this.addRoute(6, 7, 100,true);
+        this.addRoad(5, 7, 90, true);
+        this.addRoad(6, 7, 0, true);
 
         this.addPoint(new BusStop(maxW * 0.9, maxH * 0.9, 5, 50, 10000))
-        this.addRoute(1, 8, 100,true);
-        this.addRoute(7, 8, 100,true);
-        this.addRoute(6, 8, 100,true);
+        this.addRoad(1, 8, 0, true);
+        this.addRoad(7, 8, 0, true);
+        this.addRoad(6, 8, 0, true);
     }
 
 

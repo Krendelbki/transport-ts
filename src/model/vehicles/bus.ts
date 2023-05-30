@@ -35,7 +35,7 @@ export class Bus extends Vehicle {
         
         let next = this._nextRoutePoint
 
-        // If Point is in Route, it's BusStop and it just updated => stop and get passengers
+        // If Point is in Road, it's BusStop and it just updated => stop and get passengers
         if (next?.id === this._point?.id &&
             this._point?.type === PointType.BusStop &&
             this.x === this._point.x && this.y === this._point.y) {

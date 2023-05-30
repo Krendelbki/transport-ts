@@ -21,15 +21,13 @@ export default function Menu() {
     const { timeout, vehicles, selectedVeh, isCarEditing, isRouteShow, setIsRouteShow, setIsActive, setIsCarEditing } = useContext(AppContext)
     const [isVehTabVisible, setIsVehTabVisible] = useState<boolean>(false)
 
-    const selected = vehicles.find(el => el.uid === selectedVeh)
-
     return (
         <menu ref={parent} >
             <div className={classes.header}>
                 <h2 className={classes.title}>Меню</h2>
                 <div className={classes.line}></div>
 
-                <h4 className={classes.interval}>Інтервал оновлення: <br /> <span>{timeout / 1000}</span> c</h4>
+                <h4 className={classes.interval}>Інтервал оновлення:<span>{timeout / 1000}</span> c</h4>
 
                 <div className="btns">
                     <ButtonRemove />
@@ -38,23 +36,23 @@ export default function Menu() {
             </div>
 
             <div className={classes.header} style={{ gap: "10px" }}>
-                {selected && isRouteShow && !isCarEditing && <RouteControlInfo/> }
-                <CarInfo isRouteShow={isRouteShow} car={selected as Bus} isEditing={isCarEditing} />
+                {selectedVeh && isRouteShow && !isCarEditing && <RouteControlInfo/> }
+                <CarInfo isRouteShow={isRouteShow} car={selectedVeh as Bus} isEditing={isCarEditing} />
 
-                {selected &&
+                {selectedVeh &&
                     <div className={classes.info_btns}>
                         <ButtonRouteCar onClick={() => { setIsRouteShow(prev => !prev) }} />
 
                         <ButtonEditCar onClick={() => { setIsCarEditing(prev => { if (!prev) setIsActive(false); return !prev }) }} />
 
-                        <ButtonRemoveCar onClick={() => { manager.removeCar(selected.uid) }} style={{ marginLeft: "auto" }} />
+                        <ButtonRemoveCar onClick={() => { manager.removeCar(selectedVeh.uid) }} style={{ marginLeft: "auto" }} />
                     </div>
                 }
             </div>
 
 
-            {!selected && <VehTab isVisible={isVehTabVisible} />}
-            {!selected && <ButtonAddCar setIsVisible={setIsVehTabVisible} />}
+            {!selectedVeh && <VehTab isVisible={isVehTabVisible} />}
+            {!selectedVeh && <ButtonAddCar setIsVisible={setIsVehTabVisible} />}
 
             <div className={classes.footer}>
                 <ButtonStart />

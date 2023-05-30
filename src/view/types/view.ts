@@ -16,8 +16,8 @@ export interface IAppContext {
     vehicles: Vehicles[]
     map: GameMap
 
-    selectedVeh: string
-    setSelectedVeh: React.Dispatch<React.SetStateAction<string>>
+    selectedVeh: Vehicles | null
+    setSelectedVeh: React.Dispatch<React.SetStateAction<Vehicles | null>>
 
     isRouteShow: boolean
     setIsRouteShow: React.Dispatch<React.SetStateAction<boolean>>
@@ -41,7 +41,7 @@ export const InitialState: IAppContext = {
     vehicles: [],
     map: new GameMap([], []),
     
-    selectedVeh: "",
+    selectedVeh: null,
     setSelectedVeh: () => {},
     
     isRouteShow: false,

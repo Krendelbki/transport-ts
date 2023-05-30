@@ -96,59 +96,59 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
-input{
+input {
     background-color: transparent;
     border: none;
     box-shadow: none;
-    
-    border-bottom: 2px solid black ;
+
+    border-bottom: 2px solid black;
     font-size: 16px;
     text-align: center;
-    
+
     width: 10ch;
 }
 
-input[type="checkbox"]{
+input[type="checkbox"] {
     all: unset;
     position: relative;
     height: 16px;
     margin: 0 1ch;
 }
 
-label{
+label {
     cursor: pointer;
 }
 
-input[type="checkbox"]::before{
+input[type="checkbox"]::before {
     content: '';
     position: absolute;
-    
+
     top: 50%;
     left: 50%;
-    
+
     transform: translate(-50%, -50%);
-    
+
     display: block;
-    
+
     height: 100%;
     aspect-ratio: 1;
-    
+
     border-radius: 5px;
     border: 1px solid gray;
 }
 
 
-input[type="checkbox"]:checked::after{
+input[type="checkbox"]:checked::after {
     content: "";
     position: absolute;
-    
+
     top: 50%;
     left: 50%;
-    
+
     transform: translate(-50%, -50%) rotate(-45deg);
-    
+
     display: block;
-    
+
     height: 5px;
     width: 10px;
 
@@ -160,12 +160,12 @@ input[type="checkbox"]:checked::after{
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 input[type=number] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
 }
 
 .app {
@@ -173,7 +173,7 @@ input[type=number] {
     display: flex;
     height: 100vh;
     height: 100dvh;
-    
+
     padding: 30px;
 
     gap: 20px;
@@ -215,13 +215,13 @@ menu {
     cursor: pointer;
     width: 50px;
     aspect-ratio: 1/1;
-    
+
     border-radius: 10px;
-    
+
     left: -25px;
     top: -25px;
     z-index: 3;
-    
+
     background-color: aliceblue;
 }
 
@@ -231,7 +231,7 @@ menu {
 
 .point.selected::before {
     all: unset;
-    
+
     content: attr(data-number);
     position: absolute;
 
@@ -249,7 +249,7 @@ menu {
     transform: translate(-50%, -50%);
 }
 
-.col{
+.col {
     display: flex;
     flex-direction: column;
 
@@ -267,27 +267,27 @@ menu {
     user-drag: none;
 }
 
-.vehicle{
-	user-select: none;
-	position: absolute;
+.vehicle {
+    user-select: none;
+    position: absolute;
     top: 0;
     left: 0;
-    
-    z-index: 5;
+
+    z-index: 10;
 }
 
-.vehicle img{
+.vehicle img {
     position: relative;
-	cursor: pointer;
+    cursor: pointer;
 
-	transition: transform .2s ease;
-	height: 100%;
+    transition: transform .2s ease;
+    height: 100%;
 
     -webkit-user-drag: none;
     user-drag: none;
 }
 
-.vehicle.selected img{
+.vehicle.selected img {
     filter: drop-shadow(0 0 8px #6006e5);
 }
 
@@ -296,16 +296,16 @@ menu {
     filter: drop-shadow(0 0 8px red);
 }
 
-.btns{
+.btns {
     display: flex;
     gap: 15px;
 }
 
-.veh_tab{
+.veh_tab {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    
+
     width: 100%;
     background-color: #cccccc;
 
@@ -313,42 +313,69 @@ menu {
     padding: 20px 0;
 }
 
-.veh_tab .vehicle{
+.veh_tab .vehicle {
     position: relative;
-    
+
     height: 100px;
     rotate: 0deg;
 }
 
-.veh_tab .vehicle img{
+.veh_tab .vehicle img {
     max-height: 100%;
 
     filter: drop-shadow(-2px 2px 4px #000);
 }
 
-.button{
+.button {
     position: relative;
     border-radius: 10px;
     background-color: #d2d2d2;
-    
-    width: 50px;
+
+    width: 40px;
     aspect-ratio: 1;
-    
+
     padding: 10px;
 
     transition: all .3s ease;
 }
 
-.button:hover{
+.button:hover {
     background-color: #a2a2a2;
 }
 
-.button img{
+.button img {
     max-width: 100%;
     -webkit-user-drag: none;
     user-drag: none;
 }
 
-.button.selected{
+.button.selected {
     outline: 3px solid blueviolet;
+}
+
+.road-sign{
+    position: absolute;
+
+    z-index: 7;
+
+    border-radius: 50%;
+
+    aspect-ratio: 1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 5px;
+    background-color: #fff;
+    color: #000;
+
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+    text-align: center;
+
+    border: 5px solid red;
+
+    transform: translate(-50%, -50%);
 }

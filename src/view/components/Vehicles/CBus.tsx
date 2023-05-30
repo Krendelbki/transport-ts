@@ -13,11 +13,11 @@ export default function CBus({ veh, transition }: { veh?: Bus, transition: numbe
 
     return (
         <>
-            <div className={["vehicle", selectedVeh === veh?.uid ? "selected" : "", veh?.gasLevel === 0 ? "no_fuel" : ""].join(" ")}
+            <div className={["vehicle", selectedVeh?.uid === veh?.uid ? "selected" : "", veh?.gasLevel === 0 ? "no_fuel" : ""].join(" ")}
                 style={{ height: `${h}px`, left: `${x - h/6}px`, top: `${y - h/2}px`, transform: `rotate(${deg + 90}deg)`, transition: `all ${transition+5}ms linear` }}
                 onClick={() => {
-                    if (selectedVeh === veh?.uid) { setSelectedVeh(""); setIsCarEditing(false)}
-                    else setSelectedVeh(veh?.uid || "-1")
+                    if (selectedVeh?.uid === veh?.uid) { setSelectedVeh(null); setIsCarEditing(false)}
+                    else setSelectedVeh(veh || null)
                 }}
             >
                 <img src="./img/bus.png" alt="car" />

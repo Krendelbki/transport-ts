@@ -16,7 +16,7 @@ export default function CarInfo({ car, isEditing, isRouteShow }: { car: Vehicles
             if (car?.type === VehicleType.CAR) {
                 const c = car as Vehicle
 
-                return <div className={classes.car_info} onClick={() => setSelectedVeh("")}>
+                return <div className={classes.car_info} onClick={() => setSelectedVeh(null)}>
                     <h4>Машина "{c.number}"</h4>
                     <p>Швидкість: {round(c.speed)} км/год</p>
                     <p>Кількість палива: {round(c.gasLevel)} л</p>
@@ -24,7 +24,7 @@ export default function CarInfo({ car, isEditing, isRouteShow }: { car: Vehicles
             }
             else if (car?.type === VehicleType.BUS) {
                 const c = car as Bus
-                return <div className={classes.car_info} onClick={() => setSelectedVeh("")}>
+                return <div className={classes.car_info} onClick={() => setSelectedVeh(null)}>
                     <h4>Автобус "{c.number}"</h4>
                     <p>Швидкість: {round(c.speed)} км/год</p>
                     <p>Кількість палива: {round(c.gasLevel)} л</p>
@@ -35,7 +35,7 @@ export default function CarInfo({ car, isEditing, isRouteShow }: { car: Vehicles
             }
             else if (car?.type === VehicleType.TRUCK) {
                 const c = car as Truck
-                return <div className={classes.car_info} onClick={() => setSelectedVeh("")}>
+                return <div className={classes.car_info} onClick={() => setSelectedVeh(null)}>
                     <h4>Вантажівка "{c.number}"</h4>
                     <p>Швидкість: {round(c.speed)} км/год</p>
                     <p>Кількість палива: {round(c.gasLevel)} л</p>

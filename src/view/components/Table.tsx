@@ -25,7 +25,7 @@ interface Props {
     points: Points[],
     map: GameMap,
     vehicles: Vehicles[],
-    selectedVeh: string,
+    selectedVeh: Vehicles | null,
     isRouteShow: boolean
 }
 
@@ -43,7 +43,7 @@ export default function Table({ points, map, vehicles, selectedVeh, isRouteShow 
     const [pressedKey, setPressedKey] = useState<Key | null>(null)
 
     function clickHandler(e: any, point: GasStation) {
-        const veh = manager.getCar(selectedVeh)
+        const veh = selectedVeh
 
         if (isRouteShow && pressedKey === Key.SHIFT) { if (!veh?.route) return; veh?.route.push(point) }
         if (isRouteShow && pressedKey === Key.CRTL) { if (!veh?.route) return; veh?.route.reverse().push(point); veh.route.reverse() }
@@ -90,30 +90,12 @@ export default function Table({ points, map, vehicles, selectedVeh, isRouteShow 
                 if (isRouteShow)
                     for (let i = routePoints.length - 1; i >= 0; i--) { if (routePoints[i].id === point.id) selected = i + 1 }
 
-                switch (point.type) {
-                    case PointType.NoType:
-                        return <CNotype onClick={isRouteShow && clickHandler} number={selected} point={point} className={selected !== -1 ? "selected" : ""} key={point.id} onDropHandler={onDropHandler} />
-
-                    case PointType.GasStation:
-                        return <CGasStation onClick={isRouteShow && clickHandler} number={selected} point={point as GasStation} className={selected !== -1 ? "selected" : ""} key={point.id} onDropHandler={onDropHandler} />
-
-                    case PointType.BusStop:
-                        return <CBusStop onClick={isRouteShow && clickHandler} number={selected} point={point as BusStop} className={selected !== -1 ? "selected" : ""} key={point.id} onDropHandler={onDropHandler} />
-
-                    case PointType.Entertainment:
-                        return <CEntertainment onClick={isRouteShow && clickHandler} number={selected} point={point as Entertainment} className={selected !== -1 ? "selected" : ""} key={point.id} onDropHandler={onDropHandler} />
-
-                    case PointType.Warehouse:
-                        return <CWarehouse onClick={isRouteShow && clickHandler} number={selected} point={point as Warehouse} className={selected !== -1 ? "selected" : ""} key={point.id} onDropHandler={onDropHandler} />
-
-                    default: return <></>
-                }
+                return getPoint(point, isRouteShow, clickHandler, selected)
             })}
 
             {map.map.map((row, i) => {
                 return row.map((col, j) => {
-
-                    if (col.length !== 0) return <Road key={ "R_" + points[i].x + points[i].y + points[j].x + points[j].y } coords={{ x1: points[i].x, y1: points[i].y, x2: points[j].x, y2: points[j].y }} />
+                    if (col.length !== 0) return <Road selectedVeh={selectedVeh} road={row[j]} key={"R_" + points[i].x + points[i].y + points[j].x + points[j].y} coords={{ x1: points[i].x, y1: points[i].y, x2: points[j].x, y2: points[j].y }} />
 
                     else return null
                 })
@@ -129,4 +111,25 @@ export default function Table({ points, map, vehicles, selectedVeh, isRouteShow 
             })}
         </div>
     )
+}
+
+function getPoint(point: Points, isRouteShow: boolean, clickHandler: any, selected: number) {
+    switch (point.type) {
+        case PointType.NoType:
+            return <CNotype onClick={isRouteShow && clickHandler} number={selected} point={point} className={selected !== -1 ? "selected" : ""} key={point.id} onDropHandler={onDropHandler} />
+
+        case PointType.GasStation:
+            return <CGasStation onClick={isRouteShow && clickHandler} number={selected} point={point as GasStation} className={selected !== -1 ? "selected" : ""} key={point.id} onDropHandler={onDropHandler} />
+
+        case PointType.BusStop:
+            return <CBusStop onClick={isRouteShow && clickHandler} number={selected} point={point as BusStop} className={selected !== -1 ? "selected" : ""} key={point.id} onDropHandler={onDropHandler} />
+
+        case PointType.Entertainment:
+            return <CEntertainment onClick={isRouteShow && clickHandler} number={selected} point={point as Entertainment} className={selected !== -1 ? "selected" : ""} key={point.id} onDropHandler={onDropHandler} />
+
+        case PointType.Warehouse:
+            return <CWarehouse onClick={isRouteShow && clickHandler} number={selected} point={point as Warehouse} className={selected !== -1 ? "selected" : ""} key={point.id} onDropHandler={onDropHandler} />
+
+        default: return <></>
+    }
 }
