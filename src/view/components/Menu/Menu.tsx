@@ -30,8 +30,8 @@ export default function Menu() {
                 <h4 className={classes.interval}>Швидкісь:<span>{round(1 / (timeout / 1000))}</span> x</h4>
 
                 <div className="btns">
-                    <ButtonRemove onClick={() => { decreaseTimeout() }} />
-                    <ButtonAdd onClick={(e: any) => { e.currentTarget.blur(); increaseTimeout() }} />
+                    <ButtonRemove onClick={() => { increaseTimeout() }} />
+                    <ButtonAdd onClick={(e: any) => { e.currentTarget.blur(); decreaseTimeout() }} />
                 </div>
             </div>
 

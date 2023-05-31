@@ -61,7 +61,6 @@ export class Navigator {
 
         // construct the points array from path
         const points: Points[] = [];
-        let prev = this.#map.points[0];
         path.forEach(path_id => {
             this.#map.points.forEach(point => {
                 let point_id = Number(point.id.split('_')[1])

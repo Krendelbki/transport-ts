@@ -2,7 +2,7 @@ import { PointType, Point } from "./point";
 
 export class BusStop extends Point {
     #numberOfPassengers: number;
-    #stopDuration: number = 1000;
+    readonly #stopDuration: number = 1000;
 
     constructor(x: number, y: number, numberOfSlots: number, numberOfPassengers: number, stopDuration: number, currTakenSlots?: number) {
         super(x, y, numberOfSlots, currTakenSlots, PointType.BusStop);
@@ -21,8 +21,6 @@ export class BusStop extends Point {
     }
 
     get stopDuration(): number { return this.#stopDuration }
-    set stopDuration(stopDuration: number) { this.#stopDuration = stopDuration }
 
     get numberOfPassengers(): number { return this.#numberOfPassengers }
-    set numberOfPassengers(numberOfPassengers: number) { this.#numberOfPassengers = numberOfPassengers }
 }

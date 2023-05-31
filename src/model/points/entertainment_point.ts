@@ -9,5 +9,4 @@ export class Entertainment extends Point {
     }
 
     get stopDuration(): number { return this.#stopDuration }
-    set stopDuration(stopDuration: number) { this.#stopDuration = stopDuration }
 }

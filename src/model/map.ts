@@ -2,8 +2,8 @@ import { Points } from "../controller/transport_manager";
 import { Road } from "./road";
 
 export class GameMap {
-    #map: Road[][] = [];
-    #points: Points[] = [];
+    readonly #map: Road[][] = [];
+    readonly #points: Points[] = [];
     #ids: number[] = [];
 
     get size() { return this.#map.length }

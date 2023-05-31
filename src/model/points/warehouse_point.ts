@@ -9,7 +9,7 @@ export class Warehouse extends Point {
     }
 
     getCargo(needMass: number): number {
-        let ret = 0
+        let ret
 
         if (this.#mass >= needMass) ret = needMass
         else ret = this.#mass
@@ -19,5 +19,4 @@ export class Warehouse extends Point {
     }
 
     get mass(): number { return this.#mass }
-    set mass(mass: number) { this.#mass = mass }
 }

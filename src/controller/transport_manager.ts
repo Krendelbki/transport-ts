@@ -19,12 +19,10 @@ export class Manager {
     navigator: Navigator = new Navigator(new GameMap([], []))
 
     constructor(points?: Points[], map?: GameMap, vehicles?: Vehicles[]) {
-        if (map && points) { this.navigator = new Navigator(map) }
+        if (map && points) {
+            this.navigator = new Navigator(map)
+        }
         if (vehicles) this.#vehicles = vehicles
-    }
-
-    getCar(uid: string): Vehicles | undefined {
-        return this.#vehicles.find(el => el.uid === uid)
     }
 
     getRoute(veh: Vehicles | null): Points[] {
@@ -73,8 +71,6 @@ export class Manager {
 
         this.#clear()
         this.#defaultMap(w, h)
-
-        this.addVehicle(new Vehicle("111", 50, 100, 100, 1, [], this.points[0], this.navigator))
     }
 
     #clear() {
@@ -99,20 +95,20 @@ export class Manager {
         this.addRoad(0, 4, 0, false);
 
         this.addPoint(new BusStop(maxW * 0.6, maxH * 0.4, 5, 20, 3000))
-        this.addRoad(4, 5, 0, true);
+        this.addRoad(4, 5, 50, true);
         this.addRoad(3, 5, 50, true);
 
         this.addPoint(new GasStation(maxW * 0.9, maxH * 0.1, 5, 5, 1000))
         this.addRoad(4, 6, 0, true);
 
         this.addPoint(new Entertainment(maxW * 0.6, maxH * 0.7, 5, random(1000, 5000)))
-        this.addRoad(5, 7, 90, true);
+        this.addRoad(5, 7, 60, true);
         this.addRoad(6, 7, 0, true);
 
         this.addPoint(new BusStop(maxW * 0.9, maxH * 0.9, 5, 50, 10000))
         this.addRoad(1, 8, 0, true);
         this.addRoad(7, 8, 0, true);
-        this.addRoad(6, 8, 0, true);
+        this.addRoad(6, 8, 90, true);
     }
 
 

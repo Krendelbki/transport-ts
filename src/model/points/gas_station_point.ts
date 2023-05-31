@@ -1,7 +1,7 @@
 import { PointType, Point } from "./point"
 
 export class GasStation extends Point {
-    #refuellingSpeedCoef: number;
+    readonly #refuellingSpeedCoef: number;
     #fuel: number = 0;
 
     constructor(x: number, y: number, numberOfSlots: number, refuellingSpeedCoef: number, fuel: number, currTakenSlots?: number) {
@@ -11,7 +11,7 @@ export class GasStation extends Point {
     }
 
     getFuel(needFuel: number) {
-        let ret = 0
+        let ret
 
         if (this.#fuel >= needFuel) ret = needFuel
         else ret = this.#fuel
@@ -25,8 +25,6 @@ export class GasStation extends Point {
     }
 
     get fuel() { return this.#fuel }
-    set fuel(fuel: number) { this.#fuel = fuel }
 
     get refuellingSpeedCoef(): number { return this.#refuellingSpeedCoef }
-    set refuellingSpeedCoef(coef: number) { this.#refuellingSpeedCoef = coef }
 }
