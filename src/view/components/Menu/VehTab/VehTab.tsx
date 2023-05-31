@@ -24,7 +24,7 @@ export default function VehTab({ isVisible = false }: Props) {
 					draggable
 					onDragStart={(e) => onDragStartHandler(e as any, VehicleType.BUS)}
 				>
-					<img style={{ pointerEvents: "none" }} src="./img/bus.png" alt="Bus" />
+					<img src="./img/bus.png" alt="Bus" />
 				</div>
 	
 				<div className="vehicle"

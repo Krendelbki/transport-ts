@@ -322,6 +322,7 @@ menu {
 
 .veh_tab .vehicle img {
     max-height: 100%;
+    cursor: grab;
 
     filter: drop-shadow(-2px 2px 4px #000);
 }
