@@ -6,7 +6,7 @@ import classes from "./CarInfo.module.css"
 import { AppContext, manager, round } from '../../..'
 import { useContext } from 'react'
 
-export default function CarInfo({ car, isEditing, isRouteShow }: { car: Vehicles | undefined, isEditing: boolean , isRouteShow: boolean}) {
+export default function CarInfo({ car, isEditing }: { car: Vehicles | undefined, isEditing: boolean }) {
 
     const { setSelectedVeh, setIsCarEditing } = useContext(AppContext)
 

@@ -18,7 +18,7 @@ export default function CRoad({ road, coords, selectedVeh }: Props) {
 
     return (
         <>
-            {road.speedLimit !== 0 ? <div className='road-sign' style={{left: Math.abs(Math.max(x1, x2) - Math.min(x1, x2))/2 + Math.min(x1, x2), top: Math.abs(Math.max(y1, y2) - Math.min(y1, y2))/2 +  Math.min(y1, y2)}}>{road.speedLimit}</div> : null}
+            {road.speedLimit !== 0 ? <div className='road-sign' style={{ left: Math.abs(Math.max(x1, x2) - Math.min(x1, x2)) / 2 + Math.min(x1, x2), top: Math.abs(Math.max(y1, y2) - Math.min(y1, y2)) / 2 + Math.min(y1, y2) }}>{road.speedLimit}</div> : null}
             <svg style={{
                 position: "absolute", top: 0, left: 0, width: "100%", height: "100%",
                 filter: (!road.trucksAllowed && selectedVeh && selectedVeh.type == VehicleType.TRUCK) ? "drop-shadow(0 0 4px #ED2B2A)" : "drop-shadow(0 0 2px #000)",

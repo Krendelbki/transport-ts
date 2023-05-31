@@ -9,14 +9,14 @@ export default function CBus({ veh, transition }: { veh?: Bus, transition: numbe
 
     const h = 70
 
-    const { selectedVeh, setSelectedVeh, setIsCarEditing} = useContext(AppContext)
+    const { selectedVeh, setSelectedVeh, setIsCarEditing } = useContext(AppContext)
 
     return (
         <>
             <div className={["vehicle", selectedVeh?.uid === veh?.uid ? "selected" : "", veh?.gasLevel === 0 ? "no_fuel" : ""].join(" ")}
-                style={{ height: `${h}px`, left: `${x - h/6}px`, top: `${y - h/2}px`, transform: `rotate(${deg + 90}deg)`, transition: `all ${transition+5}ms linear` }}
+                style={{ height: `${h}px`, left: `${x - h / 6}px`, top: `${y - h / 2}px`, transform: `rotate(${deg + 90}deg)`, transition: `all ${transition + 5}ms linear` }}
                 onClick={() => {
-                    if (selectedVeh?.uid === veh?.uid) { setSelectedVeh(null); setIsCarEditing(false)}
+                    if (selectedVeh?.uid === veh?.uid) { setSelectedVeh(null); setIsCarEditing(false) }
                     else setSelectedVeh(veh || null)
                 }}
             >

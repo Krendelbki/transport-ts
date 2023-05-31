@@ -1,0 +1,36 @@
+.button{
+    position: relative;
+    border-radius: 10px;
+    background-color: #d2d2d2;
+
+    width: 40px;
+    height: 40px;
+
+    transition: background-color 0.3s ease;
+}
+
+.button::before,
+.button::after{
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 4px;
+
+    border-radius: 10px;
+    background-color: black;
+
+    top: 50%;
+    left: 50%;
+}
+
+.button::before{
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.button::after{
+    transform: translate(-50%, -50%);
+}
+
+.button:hover{
+    background-color: #a3a3a3;
+}

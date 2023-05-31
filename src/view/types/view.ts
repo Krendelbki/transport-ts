@@ -7,7 +7,6 @@ export interface IAppContext {
     increaseTimeout: () => void
     decreaseTimeout: () => void
 
-    setConfiguration: () => void
     isActive: boolean
     setIsActive: React.Dispatch<React.SetStateAction<boolean>>
     restart: () => void
@@ -21,7 +20,7 @@ export interface IAppContext {
 
     isRouteShow: boolean
     setIsRouteShow: React.Dispatch<React.SetStateAction<boolean>>
-    
+
     isCarEditing: boolean
     setIsCarEditing: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -31,22 +30,21 @@ export const InitialState: IAppContext = {
     timeout: 0,
     increaseTimeout: () => { },
     decreaseTimeout: () => { },
-    
-    setConfiguration: () => { },
+
     isActive: false,
     setIsActive: () => { },
     restart: () => { },
-    
+
     points: [],
     vehicles: [],
     map: new GameMap([], []),
-    
+
     selectedVeh: null,
-    setSelectedVeh: () => {},
-    
+    setSelectedVeh: () => { },
+
     isRouteShow: false,
-    setIsRouteShow: () => {},
+    setIsRouteShow: () => { },
 
     isCarEditing: false,
-    setIsCarEditing: () => {},
+    setIsCarEditing: () => { },
 }

@@ -45,9 +45,11 @@ export default function Table({ points, map, vehicles, selectedVeh, isRouteShow 
     function clickHandler(e: any, point: GasStation) {
         const veh = selectedVeh
 
-        if (isRouteShow && pressedKey === Key.SHIFT) { if (!veh?.route) return; veh?.route.push(point) }
-        if (isRouteShow && pressedKey === Key.CRTL) { if (!veh?.route) return; veh?.route.reverse().push(point); veh.route.reverse() }
-        if (isRouteShow && pressedKey === Key.ALT) { if (!veh?.route) return; veh?.clearRoute(); veh.clearPath(); veh.route.push(point) }
+        if (!isRouteShow) return
+
+        if (pressedKey === Key.SHIFT) { if (!veh?.route) return; veh?.route.push(point) }
+        else if (pressedKey === Key.CRTL) { if (!veh?.route) return; veh?.route.reverse().push(point); veh.route.reverse() }
+        else if (pressedKey === Key.ALT) { if (!veh?.route) return; veh?.clearRoute(); veh.clearPath(); veh.route.push(point) }
     }
 
     useEffect(() => {
@@ -84,7 +86,7 @@ export default function Table({ points, map, vehicles, selectedVeh, isRouteShow 
 
     return (
         <div className="table" ref={tableRef}>
-            {points.reverse().sort((a, b) => +a.id.split('_')[1] - +b.id.split('_')[1]).map(point => {
+            {points.sort((a, b) => +a.id.split('_')[1] - +b.id.split('_')[1]).map(point => {
                 let selected = -1
 
                 if (isRouteShow)

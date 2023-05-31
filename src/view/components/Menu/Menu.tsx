@@ -1,43 +1,44 @@
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { useContext, useState } from 'react';
-import { AppContext, manager } from '../..';
-import classes from './Menu.module.css';
-import ButtonAdd from '../UI/ButtonAdd/ButtonAdd';
-import ButtonRemove from '../UI/ButtonRemove/ButtonRemove';
-import ButtonRestart from '../UI/ButtonRestart/ButtonRestart';
-import ButtonStart from '../UI/ButtonStart/ButtonStart';
-import CarInfo from './CarInfo/CarInfo';
+import { AppContext, manager, round } from '../..';
 import { Bus } from '../../../model/vehicles/bus';
-import VehTab from './VehTab/VehTab';
-import ButtonAddCar from '../UI/ButtonAddCar';
-import { useAutoAnimate } from '@formkit/auto-animate/react'
-import ButtonRemoveCar from '../UI/ButtonRemoveCar';
-import ButtonEditCar from '../UI/ButtonEditCar';
-import ButtonRouteCar from '../UI/ButtonRouteCar';
+import ButtonAdd from './Buttons/ButtonAdd/ButtonAdd';
+import ButtonAddCar from './Buttons/ButtonAddCar';
+import ButtonEditCar from './Buttons/ButtonEditCar';
+import ButtonRemove from './Buttons/ButtonRemove/ButtonRemove';
+import ButtonRemoveCar from './Buttons/ButtonRemoveCar';
+import ButtonRestart from './Buttons/ButtonRestart/ButtonRestart';
+import ButtonRouteCar from './Buttons/ButtonRouteCar';
+import ButtonStart from './Buttons/ButtonStart/ButtonStart';
+import CarInfo from './CarInfo/CarInfo';
+import classes from './Menu.module.css';
 import RouteControlInfo from './RouteControlInfo/RouteControlInfo';
+import VehTab from './VehTab/VehTab';
 
 export default function Menu() {
     const [parent] = useAutoAnimate()
 
-    const { timeout, vehicles, selectedVeh, isCarEditing, isRouteShow, setIsRouteShow, setIsActive, setIsCarEditing } = useContext(AppContext)
+    const { timeout, selectedVeh, isCarEditing, isRouteShow, setIsRouteShow, setIsActive, setIsCarEditing, increaseTimeout, decreaseTimeout, } = useContext(AppContext)
     const [isVehTabVisible, setIsVehTabVisible] = useState<boolean>(false)
 
     return (
         <menu ref={parent} >
-            <div className={classes.header}>
+            <div className={classes.section}>
                 <h2 className={classes.title}>Меню</h2>
                 <div className={classes.line}></div>
 
-                <h4 className={classes.interval}>Інтервал оновлення:<span>{timeout / 1000}</span> c</h4>
+                <h4 className={classes.interval}>Швидкісь:<span>{round(1 / (timeout / 1000))}</span> x</h4>
 
                 <div className="btns">
-                    <ButtonRemove />
-                    <ButtonAdd />
+                    <ButtonRemove onClick={() => { decreaseTimeout() }} />
+                    <ButtonAdd onClick={(e: any) => { e.currentTarget.blur(); increaseTimeout() }} />
                 </div>
             </div>
 
-            <div className={classes.header} style={{ gap: "10px" }}>
-                {selectedVeh && isRouteShow && !isCarEditing && <RouteControlInfo/> }
-                <CarInfo isRouteShow={isRouteShow} car={selectedVeh as Bus} isEditing={isCarEditing} />
+            <div className={classes.section} style={{ gap: "10px" }}>
+                {selectedVeh && isRouteShow && !isCarEditing && <RouteControlInfo />}
+
+                <CarInfo car={selectedVeh as Bus} isEditing={isCarEditing} />
 
                 {selectedVeh &&
                     <div className={classes.info_btns}>

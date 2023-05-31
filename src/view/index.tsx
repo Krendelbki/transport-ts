@@ -3,7 +3,6 @@ import { Manager, Points, Vehicles } from '../controller/transport_manager'
 import { GameMap } from '../model/map'
 import Markup from './Markup'
 import { InitialState } from './types/view'
-import { Vehicle } from '../model/vehicles/vehicle'
 
 const DELTA = 100
 
@@ -22,7 +21,6 @@ export function App() {
     const [map, setMap] = useState<GameMap>(new GameMap([], []))
 
     const [selectedVeh, setSelectedVeh] = useState<Vehicles | null>(null)
-
     const [isRouteShow, setIsRouteShow] = useState<boolean>(false)
     const [isCarEditing, setIsCarEditing] = useState<boolean>(false)
 
@@ -54,20 +52,6 @@ export function App() {
         update()
     }, [time])
 
-    function setConfiguration() {
-        if (!tableRef.current) return
-
-        const maxW = tableRef.current.clientWidth
-        const maxH = tableRef.current.clientHeight
-
-        manager.setConfiguration(maxW, maxH)
-
-        setPoints(manager.points)
-        setVehicles(manager.vehicles)
-        setMap(manager.map)
-
-        setIsActive(false)
-    }
 
     function increaseTimeout() {
         if (timeout + DELTA >= 2000) {
@@ -97,11 +81,11 @@ export function App() {
             switch (e.key.toLowerCase()) {
 
                 case 'arrowup':
-                    increaseTimeout()
+                    decreaseTimeout()
                     break
 
                 case 'arrowdown':
-                    decreaseTimeout()
+                    increaseTimeout()
                     break
 
                 case ' ':
@@ -137,7 +121,6 @@ export function App() {
             increaseTimeout,
             decreaseTimeout,
 
-            setConfiguration,
             isActive,
             setIsActive,
             restart,
