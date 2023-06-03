@@ -1,0 +1,51 @@
+.title{
+    margin-bottom: 10px;
+}
+
+.line{
+    content: "";
+    display: block;
+    
+    width: calc(100% + 60px);
+    height: 3px;
+    
+    background-color: white;
+    margin-bottom: 10px;
+}
+
+.interval{
+    margin-bottom: 20px;
+    font-size: 20px;
+
+    text-align: center;
+}
+
+.interval span{
+    margin-left: 10px;
+    font-size: 30px;
+    color: blueviolet;
+}
+
+.section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+}
+
+.footer{
+    display: flex;
+    margin-bottom: 30px;
+    gap: 20px;
+}
+
+.info_btns{
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    gap: 20px;
+
+    width: 100%;
+}
