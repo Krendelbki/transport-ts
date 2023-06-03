@@ -1,5 +1,6 @@
 import { GameMap } from './../../model/map';
 import { Points, Vehicles } from "../../controller/transport_manager"
+import { VehicleType } from '../../model/vehicles/vehicle';
 
 export interface IAppContext {
     tableRef: React.RefObject<HTMLDivElement>
@@ -13,7 +14,14 @@ export interface IAppContext {
 
     points: Points[]
     vehicles: Vehicles[]
-    map: GameMap
+    map: GameMap,
+
+    selectedCarType: VehicleType | null,
+    setSelectedCarType: React.Dispatch<React.SetStateAction<VehicleType | null>> 
+
+    onDropHandler: (e: any, point: Points) => void,
+
+    update: (updatePosition: boolean) => void,
 
     selectedVeh: Vehicles | null
     setSelectedVeh: React.Dispatch<React.SetStateAction<Vehicles | null>>
@@ -38,6 +46,13 @@ export const InitialState: IAppContext = {
     points: [],
     vehicles: [],
     map: new GameMap([], []),
+
+    update(updatePosition) {},
+
+    selectedCarType: null,
+    setSelectedCarType: () => {},
+
+    onDropHandler: () => {},
 
     selectedVeh: null,
     setSelectedVeh: () => { },

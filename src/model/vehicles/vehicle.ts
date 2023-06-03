@@ -3,7 +3,6 @@ import { Navigator } from '../navigator';
 import { Points } from '../../controller/transport_manager';
 import { PointType } from '../points/point';
 import { GasStation } from '../points/gas_station_point';
-import { GameMap } from "../map";
 
 export enum VehicleType {
 	CAR,
@@ -18,7 +17,7 @@ export class Vehicle {
 	navigator: Navigator
 
 	public uid = "C_" + ++Vehicle._uid
-	private static _uid = 0
+	public static _uid = 0
 
 	private _isRouteRandom = true
 
@@ -43,6 +42,9 @@ export class Vehicle {
 	protected _nextRoutePoint: Points | undefined
 
 	addPoint(point: Points) { this._route.push(point) }
+	addPointFront(point: Points) { this._route = [point, ...this._route] }
+	addPointClear(point: Points) { this._route = [point] }
+
 	nextPoint(): Points | undefined { return this._path[0] }
 
 	#updateRotation(next: Points | undefined) {
@@ -72,7 +74,7 @@ export class Vehicle {
 		if (this._path.length || !this._point) return
 
 		if (!this._route.length && this._isRouteRandom) {
-			for (let i = 0; i < 5; i++) this._route.push(this.navigator.points[random(0, this.navigator.points.length - 1)])
+			for (let i = 0; i < 5; i++) this._route.push(this.navigator.map.points[random(0, this.navigator.map.points.length - 1)])
 		}
 
 		if (this._point.type !== PointType.GasStation) this.#needToFuel(isTruck!)
@@ -183,11 +185,21 @@ export class Vehicle {
 		if (canMove) this._canMove = canMove
 	}
 
-	get route() { return this._route }
-	get lastPath() {
+	get route() {
+		const route = [...this._route || []]
+		const lastPath = this.lastPath()
+
+		if (lastPath) return [lastPath, ...route]
+
+		return route
+	}
+
+	private lastPath() {
 		if (this._path.length) return this._path[this._path.length - 1]
 		else return null
 	}
+
+	get path() { return [this._point!, ...this._path] }
 
 	get isRouteRandom() { return this._isRouteRandom }
 	set isRouteRandom(state: boolean) { this._isRouteRandom = state }
@@ -209,18 +221,26 @@ export class Vehicle {
 	set canMove(canMove: boolean) { this._canMove = canMove }
 
 	get speed() { return this._speed }
+	get targetSpeed() { return this._targetSpeed }
 	set speed(speed: number) { if (speed >= 0) this._targetSpeed = speed }
 
 	get gasLevel() { return this._gasLevel }
 	set gasLevel(gasLevel: number) {
+		if (gasLevel < 0) return
+
 		if (gasLevel <= this._gasCapacity) this._gasLevel = gasLevel
-		else this._gasLevel = this._gasCapacity
+		else {
+			this._gasCapacity = gasLevel
+			this._gasLevel = gasLevel
+		}
 	}
 
 	get gasCapacity() { return this._gasCapacity }
 	set gasCapacity(gasCapacity: number) {
+		if (gasCapacity < 0) return
+
 		if (gasCapacity >= this._gasLevel) this._gasCapacity = gasCapacity
-		else this._gasCapacity = this._gasLevel
+		else this._gasCapacity = gasCapacity
 	}
 
 	get gasConsumption() { return this._gasConsumption }

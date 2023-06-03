@@ -30,7 +30,7 @@ export default function CWarehouse({ point, onDropHandler, className, number, on
 			</CPoint>
 
 			<Popup isVisible={popup} setIsVisible={setPopup} x={point.x + 40} y={point.y - 30}>
-				<h4>Склад {point.id}</h4>
+				<h4>Склад</h4>
 				<p>Масса товару: {point.mass}</p>
 			</Popup>
 		</>

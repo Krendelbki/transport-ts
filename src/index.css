@@ -356,12 +356,14 @@ menu {
 
 .road-sign{
     position: absolute;
+    user-select: none;
 
     z-index: 7;
 
     border-radius: 50%;
 
-    aspect-ratio: 1;
+    width: 35px;
+    height: 35px;
 
     display: flex;
     justify-content: center;

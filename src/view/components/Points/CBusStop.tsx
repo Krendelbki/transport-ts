@@ -29,7 +29,7 @@ export default function CBusStop({ point, onDropHandler, className, number, onCl
             </CPoint>
 
             <Popup isVisible={popup} setIsVisible={setPopup} x={point.x + 40} y={point.y - 30}>
-                <h4>Зупинка {point.id}</h4>
+                <h4>Зупинка</h4>
                 <p>Кількість пасажирів: {point.numberOfPassengers}</p>
             </Popup>
         </>

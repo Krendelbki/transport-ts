@@ -18,7 +18,7 @@ import VehTab from './VehTab/VehTab';
 export default function Menu() {
     const [parent] = useAutoAnimate()
 
-    const { timeout, selectedVeh, isCarEditing, isRouteShow, setIsRouteShow, setIsActive, setIsCarEditing, increaseTimeout, decreaseTimeout, } = useContext(AppContext)
+    const { update, timeout, selectedVeh, isCarEditing, isRouteShow, setSelectedVeh ,setIsRouteShow, setIsActive, setIsCarEditing, increaseTimeout, decreaseTimeout, } = useContext(AppContext)
     const [isVehTabVisible, setIsVehTabVisible] = useState<boolean>(false)
 
     return (
@@ -46,7 +46,7 @@ export default function Menu() {
 
                         <ButtonEditCar onClick={() => { setIsCarEditing(prev => { if (!prev) setIsActive(false); return !prev }) }} />
 
-                        <ButtonRemoveCar onClick={() => { manager.removeCar(selectedVeh.uid) }} style={{ marginLeft: "auto" }} />
+                        <ButtonRemoveCar onClick={() => { manager.removeCar(selectedVeh); setIsCarEditing(false); setIsRouteShow(false); setSelectedVeh(null); update(false) }} style={{ marginLeft: "auto" }} />
                     </div>
                 }
             </div>

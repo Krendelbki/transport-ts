@@ -2,6 +2,7 @@ import { useState } from "react"
 import CPoint from "./CPoint"
 import Popup from "../UI/Popup/Popup"
 import { Entertainment } from "../../../model/points/entertainment_point"
+import { round } from "../.."
 
 interface Props {
 	point: Entertainment,
@@ -29,8 +30,8 @@ export default function CEntertainment({ point, onDropHandler, className, number
 			</CPoint>
 
 			<Popup isVisible={popup} setIsVisible={setPopup} x={point.x + 40} y={point.y - 30}>
-				<h4>Дозвілля {point.id}</h4>
-				<p>Час зупинки: {point.stopDuration / 1000}c</p>
+				<h4>Дозвілля</h4>
+				<p>Час зупинки: {round(point.stopDuration / 1000)}c</p>
 			</Popup>
 		</>
 	)

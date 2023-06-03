@@ -29,7 +29,7 @@ export default function CGasStation({ point, number, onDropHandler, className, o
 			</CPoint>
 
 			<Popup isVisible={popup} setIsVisible={setPopup} x={point.x + 40} y={point.y - 30}>
-				<h4>Заправка {point.id}</h4>
+				<h4>Заправка</h4>
 				<p>Кількість палива: {point.fuel}</p>
 				<p>Швидкість заправки: {point.refuellingSpeedCoef}</p>
 			</Popup>

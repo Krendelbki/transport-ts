@@ -136,6 +136,5 @@ export class Navigator {
         this.#map.addRoad(from, to, speedLimit, trucksAllowed);
     }
 
-    get points() { return this.#map.points }
     get map() { return this.#map }
 }

@@ -1,4 +1,4 @@
-import { Vehicle } from '../model/vehicles/vehicle';
+import { Vehicle, VehicleType } from '../model/vehicles/vehicle';
 import { GameMap } from "../model/map"
 import { Navigator } from "../model/navigator"
 import { BusStop } from "../model/points/bus_stop_point"
@@ -15,41 +15,27 @@ export type Vehicles = Vehicle | Bus | Truck // | Bike
 export function random(min: number, max: number) { return Math.floor(Math.random() * (max - min + 1) + min) }
 
 export class Manager {
+    private static _instance: Manager
+
     #vehicles: Vehicles[] = []
     navigator: Navigator = new Navigator(new GameMap([], []))
 
     constructor(points?: Points[], map?: GameMap, vehicles?: Vehicles[]) {
-        if (map && points) {
-            this.navigator = new Navigator(map)
-        }
+
+        if (map && points) this.navigator = new Navigator(map)
         if (vehicles) this.#vehicles = vehicles
     }
 
-    getRoute(veh: Vehicles | null): Points[] {
-        if (!veh) return []
-
-        const res = this.vehicles.find(el => el.uid === veh.uid)
-
-        if (!res) return []
-
-        const route = [...res.route || []]
-        const lastPath = veh.lastPath
-
-        if (lastPath) {
-            route.reverse()
-            route.push(lastPath)
-            route.reverse()
-        }
-
-        return route
+    public static Instance(points?: Points[], map?: GameMap, vehicles?: Vehicles[]) {
+        return this._instance || (this._instance = new this(points, map, vehicles))
     }
 
-    removeCar(uid: string) {
-        const i = this.vehicles.findIndex(el => el.uid === uid)
+    removeCar(veh: Vehicles) {
+        const i = this.#vehicles.findIndex(el => el.uid === veh.uid)
 
         if (i === -1) return
 
-        this.vehicles.splice(i, 1)
+        this.#vehicles.splice(i, 1)
     }
 
     addPoint(point: Points) {
@@ -57,13 +43,34 @@ export class Manager {
     }
 
     addRoad(from: number, to: number, speedLimit: number, trucksAllowed: boolean) {
-        if (from < 0 || to < 0 || from >= this.navigator.points.length || to >= this.navigator.points.length)
+        if (from < 0 || to < 0 || from >= this.map.points.length || to >= this.map.points.length)
             throw new Error("(Manager) Invalid index of point in route creation")
 
         this.navigator.addRoad(from, to, speedLimit, trucksAllowed)
     }
 
-    addVehicle(vehicle: Vehicles) { this.#vehicles.push(vehicle) }
+    addVehicle(type: VehicleType, point: Points): void;
+    addVehicle(vehicle: Vehicles): void;
+
+    addVehicle(props: unknown, point?: Points): void {
+        if (point) {
+            switch (props as VehicleType) {
+                case VehicleType.CAR:
+                    this.#vehicles.push(new Vehicle("Car_" + Vehicle._uid, random(30, 50), 100, 100, 1, [], point, this.navigator))
+                    break
+
+                case VehicleType.BUS:
+                    this.#vehicles.push(new Bus("Bus_" + Vehicle._uid, random(30, 50), 100, 100, 1, [], point, this.navigator, true, [], 30, 0))
+                    break
+
+                case VehicleType.TRUCK:
+                    this.#vehicles.push(new Truck("Truck_" + Vehicle._uid, random(30, 40), 300, 200, 2, [], point, 1000, this.navigator))
+                    break
+            }
+        }
+        else this.#vehicles.push(props as Vehicles)
+    }
+
 
     setConfiguration(w: number, h: number) {
         this.navigator = new Navigator(new GameMap([], []))
@@ -111,9 +118,7 @@ export class Manager {
         this.addRoad(6, 8, 90, true);
     }
 
-
     get map() { return this.navigator.map }
-    get points() { return this.navigator.points }
     get vehicles() { return this.#vehicles }
 
     update() { this.#vehicles.forEach(v => v.update()) }
